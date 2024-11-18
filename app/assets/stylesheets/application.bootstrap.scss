@@ -1,0 +1,17 @@
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap-icons/font/bootstrap-icons';
+
+.modal_frame {
+  z-index: 1056 !important;
+}
+.sub_modal_frame {
+  z-index: 1057 !important;
+}
+
+#modal_frame_backdrop {
+  z-index: 1055 !important;
+}
+
+#sub_modal_frame_backdrop {
+  z-index: 1056 !important;
+}
