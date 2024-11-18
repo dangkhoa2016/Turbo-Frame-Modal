@@ -1,0 +1,65 @@
+
+<div class='container-fluid my-5'>
+  <div class='p-5 text-center bg-body-tertiary rounded-3'>
+    <img class='bi mt-4 mb-3' width='100' src='/favicon.png' alt='logo' />
+    <h1 class='text-body-emphasis'>Turbo Frame Modal</h1>
+
+    <p class='fs-5 text-muted'>
+      In this example, we use Stimulus controllers to manage the behavior of Bootstrap 5 modals. The <code>modal_controller.js</code> manages both the main and sub-modal dialogs, providing seamless interaction without page reloads. With this setup, both modals share common behavior but are visually stacked using custom z-index values, ensuring that the sub-modal appears above the main modal when both are open simultaneously.
+    </p>
+
+    <p class='fs-5 text-muted'>
+      In the HTML, each modal is defined with the <code>data-controller='modals'</code> attribute, which links it to the <code>ModalController</code>. Within each modal, Turbo Frames are used to load content dynamically. The <code>turbo_frame_tag</code> for the modal body is targeted by the <code>modal#turboFrame</code> Stimulus action. Initially, the modal body displays a loading message, and once content is loaded, it replaces the 'Loading...' text with the actual content.
+    </p>
+
+    <p class='fs-5 text-muted'>
+      The modals are designed to handle errors and display an error message for easier debugging, along with two retry buttons to allow users to retry the action. When an error occurs, the error is parsed and displayed in the modal, and the error container (<code>data-modals-target='errorContainer'</code>) is revealed in the modal body, showing the relevant error message. Inside this error container, one retry button is shown to let users attempt the action again. Additionally, a second retry button is placed in the modal footer, offering another option to retry the operation. Both retry buttons are dynamically displayed or hidden depending on the state of the content inside the modal, allowing for smooth error handling and user interaction.
+    </p>
+
+    <p class='fs-5 text-muted'>
+      To handle the stacking of modals, custom CSS is used to adjust the z-index values. The main modal (<code>modal_frame</code>) has a z-index of 1056, while the sub-modal (<code>sub_modal_frame</code>) is placed above it with a z-index of 1057. The backdrop elements (<code>modal_frame_backdrop</code> and <code>sub_modal_frame_backdrop</code>) are also adjusted to ensure proper layering and that the sub-modal’s backdrop is above the main modal’s backdrop.
+    </p>
+
+    <p class='fs-5 text-muted'>
+      By combining Stimulus for interactivity, Turbo for dynamic content loading, and Bootstrap 5 for modal styling and animations, this setup creates a smooth and intuitive user experience for interacting with multiple modals on a page.
+    </p>
+
+    <div id='main'>
+      <a href='#example1' class='d-inline-flex align-items-center btn btn-primary btn-lg px-4 m-3 rounded-pill'
+        type='button'>
+        Go to 'A' section
+        <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
+      </a>
+      <a href='#example2' class='d-inline-flex align-items-center btn btn-danger btn-lg px-4 m-3 rounded-pill'
+        type='button'>
+        Go to 'B' section
+        <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
+      </a>
+      <a href='#example3' class='d-inline-flex align-items-center btn btn-warning btn-lg px-4 m-3 rounded-pill'
+        type='button'>
+        Go to 'C' section
+        <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
+      </a>
+      <a href='#example4' class='d-inline-flex align-items-center btn btn-info btn-lg px-4 m-3 rounded-pill'
+        type='button'>
+        Go to 'D' section
+        <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
+      </a>
+      <a href='#example5' class='d-inline-flex align-items-center btn btn-outline-dark btn-lg px-4 m-3 rounded-pill'
+        type='button'>
+        Go to 'E' section
+        <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
+      </a>
+      <a href='#example6' class='d-inline-flex align-items-center btn btn-success btn-lg px-4 m-3 rounded-pill'
+        type='button'>
+        Go to 'F' section
+        <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
+      </a>
+      <a href='#example7' class='d-inline-flex align-items-center btn btn-outline-primary btn-lg px-4 m-3 rounded-pill'
+        type='button'>
+        Go to 'G' section
+        <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
+      </a>
+    </div>
+  </div>
+</div>

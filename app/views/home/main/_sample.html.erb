@@ -1,0 +1,153 @@
+
+<div id='example1' class='rounded bg-body-tertiary row pt-3'>
+  <h4 class='col-12 mb-2'>A - Loop through all tables and show row count</h4>
+
+  <div class='col-12'>
+    <div class='alert alert-dark my-4'>
+      <div>
+        <%= link_to 'Show tables row count', count_all_home_index_path, class: 'my-2 btn btn-primary', data: { turbo_frame: 'modal_frame' } %>
+        <p class='text-secondary mb-0 mt-2'>1. Normal option: using the <code>Main Modal</code> ({ turbo_frame: 'modal_frame' })</p>
+      </div>
+      <hr />
+      <div>
+        <%= link_to 'Show tables row count', count_all_home_index_path, class: 'my-2 btn btn-danger', data: { turbo_frame: 'modal_frame', 'disable-on-request': true, 'show-modal-when-response': 'true' } %>
+        <p class='text-secondary mb-0 mt-2'>2. Disable button on request and show the <code>Main Modal</code> ({ turbo_frame: 'modal_frame' }) when server response</p>
+      </div>
+      <hr />
+      <div>
+        <%= link_to 'Show tables row count', count_all_home_index_path, class: 'my-2 btn btn-warning', data: { turbo_frame: 'modal_frame', 'disable-on-request': true } %>
+        <p class='text-secondary mb-0 mt-2'>3. Disable button on request and show the <code>Main Modal</code> ({ turbo_frame: 'modal_frame' }) when click</p>
+      </div>
+      <hr />
+      <div>
+        <%= link_to 'Show tables row count button inside modal', count_all_in_modal_home_index_path, class: 'my-2 btn btn-success', data: { turbo_frame: 'modal_frame' } %>
+        <p class='text-secondary mb-0 mt-2'>4. Show button in the <code>Main Modal</code> ({ turbo_frame: 'modal_frame' }), when click the button, show the <code>Sub Modal</code> ({ turbo_frame: 'sub_modal_frame' })</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id='example2' class='rounded bg-body-tertiary my-3 pt-3 row'>
+  <h4 class='col-12 mb-2'>B - Form without validation</h4>
+
+  <div class='col-md-6'>
+    <div class='alert alert-info my-4'>
+      <%= render 'home/partials/sample_post_form', data_options: { 'show-modal-when-response': 'true' } %>
+    </div>
+    <p class='text-secondary'>1. When submit the form, the button will be disabled, and when server response,
+    both error status and success status will be shown in the modal</p>
+  </div>
+  <div class='col-md-6'>
+    <div class='alert alert-success my-4'>
+      <%= render 'home/partials/test_submit_form', locals: { frame_id: 'sub_modal_frame' } %>
+    </div>
+    <p class='text-secondary'>2. When submit the form, the button will be disabled, and the modal will show loading spinner,
+    and when server response, both error status and success status will be shown in the modal</p>
+  </div>
+  <div class='col-md-6'>
+    <div class='alert alert-info my-4'>
+      <%= render 'home/partials/test_replace_the_form1' %>
+    </div>
+    <p class='text-secondary'>3. When submit the form, the button will be disabled, and when server response,
+    if error the modal will show, else replace the form</p>
+  </div>
+  <div class='col-md-6'>
+    <div class='alert alert-success my-4'>
+      <%= render 'home/partials/test_replace_the_form2' %>
+    </div>
+    <p class='text-secondary'>4. When submit the form, the button will be disabled, and the modal will show loading spinner,
+    and when server response, if error the modal will show, else replace the form</p>
+  </div>
+</div>
+
+<div id='example3' class='rounded bg-body-tertiary pt-3 row'>
+  <h4 class='col-12 mb-2'>C - Form inside modal without validation</h4>
+
+  <div class='col-md-6'>
+    <div class='alert alert-info my-4'>
+      <%= link_to 'Inside modal 1', sample_post_inside_modal1_home_index_path, class: 'btn btn-secondary', data: { turbo_frame: 'modal_frame' } %>
+      <p class='text-secondary mb-0 mt-2'>1. Like the <code>B - Form without validation 2.</code>, but open form inside the <code>Main Modal</code>, when submit the form,
+      the <code>Sub Modal</code> will show loading spinner, and when server response,
+        both error status and success status will be shown in the modal</p>
+    </div>
+  </div>
+  <div class='col-md-6'>
+    <div class='alert alert-info my-4'>
+      <%= link_to 'Inside modal 2', sample_post_inside_modal2_home_index_path, class: 'btn btn-warning', data: { turbo_frame: 'modal_frame' } %>
+      <p class='text-secondary mb-0 mt-2'>Like the <code>C 1.</code>, but sleep 3 seconds before response the form when click the link</p>
+    </div>
+  </div>
+</div>
+
+<div id='example4' class='rounded bg-body-tertiary row pt-3 my-3'>
+  <h4 class='col-12 mb-2'>D - Sample <code>GET</code> request with error response</h4>
+
+  <div class='col'>
+    <div class='alert alert-danger my-4'>
+      <div>
+        <%= link_to 'Sample get no action', sample_get_no_action_home_index_path, class: 'btn btn-success', data: { turbo_frame: 'modal_frame' } %>
+        <p class='text-secondary mb-0 mt-2'>Open <code>Main Modal</code> with no action handle to test the error response and showing the error message in the modal</p>
+      </div>
+      <hr />
+      <div>
+        <%= link_to 'Sample get no template', sample_get_no_template_home_index_path, class: 'btn btn-info', data: { turbo_frame: 'sub_modal_frame', 'disable-on-request': 'true' } %>
+        <p class='text-secondary mb-0 mt-2'>Open <code>Sub Modal</code> with no template to test the error response and showing the error message in the modal</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id='example5' class='rounded bg-body-tertiary row pt-3'>
+  <h4 class='col-12 mb-2'>E - Sample post inside modal</h4>
+
+  <div class='col-md-6'>
+    <div class='alert alert-info my-4'>
+      <%= link_to 'Inside modal 3', sample_post_inside_modal3_home_index_path, class: 'btn btn-warning', data: { turbo_frame: 'modal_frame', 'disable-on-request': 'true' } %>
+      <p class='text-secondary mb-0 mt-2'>Open form inside modal (sleep 2 seconds) with options: <code>{ 'show-modal-when-response': 'true' }</code>, when submit the form, the <code>Sub Modal</code> will show loading spinner,
+      and when server response the <code>Sub Modal</code> will show the response</p>
+    </div>
+  </div>
+  <div class='col-md-6'>
+    <div class='alert alert-warning my-4'>
+      <%= link_to 'Inside modal 4', sample_post_inside_modal4_home_index_path, class: 'btn btn-outline-primary', data: { turbo_frame: 'modal_frame', 'disable-on-request': 'true' } %>
+      <p class='text-secondary mb-0 mt-2'>Open form inside the <code>Main Modal</code> with options: <code>{ 'handle-by-target': 'true' }</code>, when submit the form, the <code>Sub Modal</code> will show loading spinner,
+      and when server response the <code>Sub Modal</code> will close and the <code>Main Modal</code> will show the response</p>
+    </div>
+  </div>
+</div>
+
+<div id='example6' class='rounded bg-body-tertiary row my-3 pt-3'>
+  <h4 class='col-12 mb-2'>F - Form with validation</h4>
+
+  <div class='col-md-6'>
+    <%= render 'home/partials/test_validate_form1' %>
+    <p class='text-secondary'>1. When submit the form, the button will be disabled, and when server response the form will be
+    replaced by <code>&lt;turbo-stream&gt;</code> tag with the response, the modal will show when submit the form and hide
+     when server response</p>
+  </div>
+  <div class='col-md-6'>
+    <%= render 'home/partials/test_validate_form2' %>
+    <p class='text-secondary'>2. Like the <code>F 1.</code>, but the modal won't show</p>
+  </div>
+</div>
+
+<div id='example7' class='rounded bg-body-tertiary pt-3 row'>
+  <h4 class='col-12 mb-2'>G - Form inside modal with validation</h4>
+
+  <div class='col-md-6'>
+    <div class='alert alert-info my-4'>
+      <%= link_to 'Validate inside modal 1', test_modal_form1_home_index_path, class: 'btn btn-warning', data: { turbo_frame: 'modal_frame' } %>
+      <p class='text-secondary mb-0 mt-2'>Open form inside modal, like the <code>F - Form with validation 1.</code>, using the <code>Main Modal</code>,
+        when submit the form, the <code>Sub Modal</code> will show loading spinner, and the <code>Main Modal</code> will show the response,
+       but when data is valid,
+       the form will be replaced with the response by <code>&lt;turbo-stream&gt;</code> tag, using another partial</p>
+    </div>
+  </div>
+  <div class='col-md-6'>
+    <div class='alert alert-dark my-4'>
+      <%= link_to 'Validate inside modal 2', test_modal_form2_home_index_path, class: 'btn btn-success', data: { turbo_frame: 'modal_frame' } %>
+      <p class='text-secondary mb-0 mt-2'>Open form inside the <code>Main Modal</code>, like the <code>F - Form with validation 2.</code>, but 
+      the <code>Sub Modal</code> won't show</p>
+    </div>
+  </div>
+</div>

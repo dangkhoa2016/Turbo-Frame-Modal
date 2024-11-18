@@ -1,0 +1,7 @@
+
+<%= turbo_frame_tag 'modal_frame' do %>
+  <div class='text-center'>
+    <%= link_to 'show tables row count', count_all_home_index_path(frame_id: 'sub_modal_frame'),
+      class: 'btn btn-primary', data: { turbo_frame: 'sub_modal_frame' } %>
+  </div>
+<% end %>

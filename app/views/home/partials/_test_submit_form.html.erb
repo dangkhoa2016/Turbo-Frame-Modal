@@ -1,0 +1,6 @@
+<% turbo_frame = defined?(locals) ? locals[:frame_id] : (defined?(frame_id) ? frame_id : nil) %>
+<% turbo_frame ||= 'modal_frame' %>
+<% options = defined?(locals) ? locals[:data_options] : (defined?(data_options) ? data_options : nil) %>
+<% options ||= {} %>
+
+<%= render 'home/partials/sample_post_form', frame_id: turbo_frame, data_options: options %>

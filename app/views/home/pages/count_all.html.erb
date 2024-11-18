@@ -1,0 +1,22 @@
+<% turbo_frame = params[:frame_id] || 'modal_frame' %>
+
+<%= turbo_frame_tag turbo_frame do %>
+  <h2>Record counts for all tables</h2>
+
+  <table class='table table-bordered table-striped'>
+    <thead>
+      <tr>
+        <th>Table</th>
+        <th>No. of rows</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @result.each do |table, count| %>
+        <tr>
+          <td><%= table %></td>
+          <td><%= count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

@@ -1,0 +1,63 @@
+<!-- Main modal -->
+<div class='modal fade modal_frame' tabindex='-1'
+  data-controller='modals' data-modals-backdrop-zindex-value='1055'
+  aria-labelledby='mainModalLabel' aria-hidden='true'>
+  <div class='modal-dialog modal-lg'>
+    <!-- Modal content -->
+    <div class='modal-content'>
+      <!-- Modal header -->
+      <div class='modal-header'>
+        <h1 class='modal-title fs-5' id='mainModalLabel'>Main Modal</h1>
+        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+      </div>
+      <!-- Modal body -->
+      <div class='modal-body'>
+        <%= turbo_frame_tag 'modal_frame', data: { 'modals-target': 'turboFrame' } do %>
+          <div class='loading'>Loading...</div>
+        <% end %>
+        <div class='d-none text-center mt-2' data-modals-target='errorContainer'>
+          <button class='btn btn-primary retry-button'>Retry</button>
+        </div>
+      </div>
+      <!-- Modal footer -->
+      <div class='modal-footer'>
+        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
+        <div data-modals-target='errorContainer'>
+          <button type='button' class='btn btn-dark retry-button'>Retry</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sub modal -->
+<div class='modal fade sub_modal_frame' tabindex='-1'
+  data-controller='modals' data-modals-backdrop-zindex-value='1056'
+  aria-labelledby='subModalLabel' aria-hidden='true'>
+  <div class='modal-dialog modal-lg'>
+    <!-- Modal content -->
+    <div class='modal-content'>
+      <!-- Modal header -->
+      <div class='modal-header'>
+        <h1 class='modal-title fs-5' id='subModalLabel'>Sub Modal</h1>
+        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+      </div>
+      <!-- Modal body -->
+      <div class='modal-body'>
+        <%= turbo_frame_tag 'sub_modal_frame', data: { 'modals-target': 'turboFrame' } do %>
+          <div class='loading'>Loading...</div>
+        <% end %>
+        <div class='d-none text-center mt-2' data-modals-target='errorContainer'>
+          <button class='btn btn-primary retry-button'>Retry</button>
+        </div>
+      </div>
+      <!-- Modal footer -->
+      <div class='modal-footer'>
+        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
+        <div data-modals-target='errorContainer'>
+          <button type='button' class='btn btn-danger retry-button'>Retry</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
