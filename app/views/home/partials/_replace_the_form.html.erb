@@ -1,0 +1,43 @@
+<% turbo_frame = defined?(locals) ? locals[:frame_id] : (defined?(frame_id) ? frame_id : nil) %>
+<% turbo_frame ||= 'modal_frame' %>
+<% options = defined?(locals) ? locals[:data_options] : (defined?(data_options) ? data_options : nil) %>
+<% options ||= {} %>
+<% options.merge!(turbo_frame: turbo_frame) %>
+<% wrapper_frame = defined?(locals) ? locals[:wrap_frame] : (defined?(wrap_frame) ? wrap_frame : nil) %>
+
+<%= turbo_frame_tag wrapper_frame do %>
+
+  <h3>Frame ID: <%= turbo_frame %></h3>
+  <p>Options: <%= options %></p>
+  
+  <%= form_for @sample_post_test, url: replace_the_form_home_index_path,
+    method: :post, data: options do |f| %>
+    <%= f.hidden_field :wrap_frame, value: wrapper_frame %>
+
+    <% if @sample_post_test.errors.any? %>
+      <ul class='list-group mb-2'>
+        <% @sample_post_test.errors.full_messages.each do |msg| %>
+          <li class='list-group-item list-group-item-danger'><%= msg %></li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <div class='w-100 text-start'>
+      <%= f.label :name, for: "name_#{f.object_id}" %>
+      <%= f.text_field :name, id: "name_#{f.object_id}", class: 'form-control', placeholder: 'Name' %>
+      <% if @sample_post_test.errors[:name].any? %>
+        <div class='text-danger'>
+          <%= @sample_post_test.errors[:name].first %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class='w-100 text-start my-3 form-check'>
+      <%= f.check_box :is_active, id: "is_active_#{f.object_id}", class: 'form-check-input' %>
+      <%= f.label :is_active, for: "is_active_#{f.object_id}", class: 'form-check-label' %>
+    </div>
+
+    <%= f.submit 'Test submit', class: 'btn btn-dark' %>
+  <% end %>
+
+<% end %>
