@@ -1,0 +1,27 @@
+<% query = request.params.slice(:turbo_frame, :wrap_frame, :handle_by_target) %>
+
+<% turbo_frame = query.dig(:turbo_frame) %>
+<% wrap_frame = query.dig(:wrap_frame) %>
+<% turbo_frame ||= 'modal_frame' %>
+<% wrap_frame ||= 'modal_frame' %>
+<% options ||= {} %>
+<% options.merge!(turbo_frame: turbo_frame) %>
+<% options.merge!(controller: 'save-reorder-menus-form') %>
+<% options.merge!('handle-by-target': 'true') if query.dig(:handle_by_target) %>
+
+<%= turbo_frame_tag wrap_frame do %>
+  <%= render 'demo/settings/sortablejs' %>
+
+  <%= form_for :user_menus, url: update_setting_order_menus_path(query),
+    data: options, method: :post, class: 'text-center mt-3' do |f| %>
+
+    <%= turbo_frame_tag 'save_menus_frame' do %>
+      <%= render 'save_menus_message' %>
+    <% end %>
+
+    <%= f.hidden_field :selected_menus, value: @user_menu_ids.to_json %>
+    <%= f.submit 'Save selected menus', class: 'text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center' %>
+    <%= f.submit 'Save selected menus and close', class: 'btn-close-on-success inline-flex my-2 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-1.5' %>
+  <% end %>
+
+<% end %>

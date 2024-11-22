@@ -1,0 +1,2 @@
+module Demo::StaticPagesHelper
+end

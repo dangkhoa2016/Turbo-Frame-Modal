@@ -2,6 +2,7 @@
 import '@hotwired/turbo-rails'
 import 'controllers'
 import 'flowbite';
+import './nav_menu';
 
 window.scrollToElement = function (elementId) {
   const element = document.getElementById(elementId);

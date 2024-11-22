@@ -1,0 +1,73 @@
+<div class='container px-6 max-w-7xl mx-auto bg-white my-12'>
+  <h4 class='font-medium pb-4 border-b'>System settings</h4>
+
+  <div class='py-2'>
+    <div class='grid grid-cols-1 md:grid-cols-2 gap-4 py-2'>
+      <div>
+        <label for='app-name' class='block mb-2 text-sm text-gray-900 dark:text-white'>Application Name</label>
+        <input type='text' id='app-name' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+          placeholder='Rails v7' required=''>
+      </div>
+      <div>
+        <label for='app-email' class='block mb-2 text-sm text-gray-900 dark:text-white'>Application Email</label>
+        <input type='text' id='app-email' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+          placeholder='rails@test.local' required=''>
+      </div>
+    </div>
+
+    <div class='grid grid-cols-1 md:grid-cols-2 gap-4 py-2'>
+      <div class='flex items-center'>
+        <input id='send-error-log' type='checkbox' value='' name='send-error-log' class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'>
+        <label for='send-error-log' class='ms-2 text-sm text-gray-900 dark:text-gray-300'>Send error logs to the developers</label>
+      </div>
+      <div class='flex items-center'>
+        <input id='auto-restart-worker' type='checkbox' value='' name='auto-restart-worker' class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'>
+        <label for='auto-restart-worker' class='ms-2 text-sm text-gray-900 dark:text-gray-300'>Auto restart background worker on failure</label>
+      </div>
+    </div>
+
+    <div class='grid grid-cols-1 md:grid-cols-2 gap-4 py-2'>
+      <div>
+        <label for='server-timezone' class='block mb-2 text-sm text-gray-900 dark:text-white'>Server Timezone</label>
+        <select class='w-full bg-light bg-gray-100 p-2 rounded border border-gray-300'
+          aria-label='Server Timezone' name='server-timezone' id='server-timezone'>
+          <option selected>Select Timezone</option>
+          <option value='1'>UTC</option>
+          <option value='2'>Greenwich Mean Time</option>
+          <option value='3'>Eastern Standard Time</option>
+          <option value='4'>Central Standard Time</option>
+          <option value='5'>Mountain Standard Time</option>
+          <option value='6'>Pacific Standard Time</option>
+          <option value='7'>Alaska Standard Time</option>
+        </select>
+      </div>
+      <div>
+        <label for='default-language' class='block mb-2 text-sm text-gray-900 dark:text-white'>Language</label>
+        <select class='w-full bg-light bg-gray-100 p-2 rounded border border-gray-300'
+          aria-label='Language' name='default-language' id='default-language'>
+          <option value='english' selected>English</option>
+          <option value='english_us'>English (United States)</option>
+          <option value='chinese'>Chinese</option>
+          <option value='arab'>Arabic</option>
+          <option value='french'>French</option>
+        </select>
+      </div>
+    </div>
+
+    <div class='grid grid-cols-1 md:grid-cols-2 gap-4 py-2'>
+      <div>
+        <%= link_to 'Reorder Navigation 1', settings_reorder_menus_path(turbo_frame: 'sub_modal_frame', handle_by_target: true), class: 'cursor-pointer focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5 disabled:opacity-40 disabled:cursor-not-allowed', data: { turbo_frame: 'modal_frame' } %>
+        <p class='text-gray-400 mt-2'>Test modal controller</p>
+      </div>
+      <div class='pt-3 md:pt-0'>
+        <%= link_to 'Reorder Navigation 2', settings_reorder_menus_path, class: 'cursor-pointer focus:outline-none text-white bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-3 py-1.5 disabled:opacity-40 disabled:cursor-not-allowed', data: { turbo_frame: 'modal_frame' } %>
+        <p class='text-gray-400 mt-2'>Test modal controller</p>
+      </div>
+    </div>
+
+    <div class='py-3 mt-4 border-t border-b'>
+      <button class='btn bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded mr-3'>Save Changes</button>
+      <button class='btn bg-transparent border hover:bg-gray-100 border-gray-300 text-gray-700 px-4 py-2 rounded'>Cancel</button>
+    </div>
+  </div>
+</div>
