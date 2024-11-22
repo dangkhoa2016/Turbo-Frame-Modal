@@ -1,0 +1,50 @@
+<% turbo_frame = defined?(locals) ? locals[:frame_id] : (defined?(frame_id) ? frame_id : nil) %>
+<% turbo_frame ||= 'modal_frame' %>
+<% options = defined?(locals) ? locals[:data_options] : (defined?(data_options) ? data_options : nil) %>
+<% options ||= {} %>
+<% options.merge!(turbo_frame: turbo_frame) %>
+<% wrapper_frame = defined?(locals) ? locals[:wrap_frame] : (defined?(wrap_frame) ? wrap_frame : nil) %>
+
+<%= turbo_frame_tag wrapper_frame do %>
+
+  <h3>Frame ID: <%= turbo_frame %></h3>
+  <p>Options: <%= options %></p>
+  
+  <%= form_for @sample_post_test, url: replace_the_form_home_index_path,
+    method: :post, data: options do |f| %>
+    <%= f.hidden_field :wrap_frame, value: wrapper_frame %>
+
+    <% if @sample_post_test.errors.any? %>
+      <ul class='my-3 text-sm font-medium text-gray-900 bg-red-300 border border-red-200 rounded-lg'>
+        <% count = @sample_post_test.errors.count %>
+        <% @sample_post_test.errors.full_messages.each_with_index do |msg, indx| %>
+          <li class='w-full px-4 py-2 border-gray-200 rounded-t-lg<%= (indx == count - 1) ? '' : ' border-b' %>'><%= msg %></li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <div class='w-100 text-start'>
+      <%= f.label :name, for: "name_#{f.object_id}", class: 'block text-sm/6 font-medium text-gray-900' %>
+      <div class='mt-1'>
+        <%= f.text_field :name, id: "name_#{f.object_id}", class: 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6', placeholder: 'Name' %>
+        <% if @sample_post_test.errors[:name].any? %>
+          <div class='text-red-500'>
+            <%= @sample_post_test.errors[:name].first %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class='relative flex gap-x-3 mt-2'>
+      <div class='flex h-6 items-center'>
+        <%= f.check_box :is_active, id: "is_active_#{f.object_id}", class: 'size-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600' %>
+      </div>
+      <div class='text-sm/6'>
+        <%= f.label :is_active, for: "is_active_#{f.object_id}", class: 'font-medium text-gray-900' %>
+      </div>
+    </div>
+
+    <%= f.submit 'Test submit', class: 'cursor-pointer text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-1.5 mt-2 disabled:opacity-50 disabled:cursor-not-allowed' %>
+  <% end %>
+
+<% end %>

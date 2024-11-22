@@ -1,0 +1,33 @@
+<% turbo_frame = params[:frame_id] || 'modal_frame' %>
+
+<%= turbo_frame_tag turbo_frame do %>
+  <h2 class='mb-2'>Record counts for all tables</h2>
+
+  <div class='relative overflow-x-auto shadow-md sm:rounded-lg'>
+    <table class='w-full text-sm text-left rtl:text-right text-gray-500'>
+      <thead class='text-xs text-gray-700 uppercase bg-gray-100'>
+        <tr>
+          <th scope='col' class='px-6 py-3'>
+            Table
+          </th>
+          <th scope='col' class='px-6 py-3'>
+            No. of rows
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @result.each do |table, count| %>
+          <tr class='bg-white border-b hover:bg-gray-50'>
+            <th scope='row' class='px-6 py-4 font-medium text-gray-900 whitespace-nowrap'>
+              <%= table %>
+            </th>
+            <td class='px-6 py-4'>
+              <%= count %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+<% end %>

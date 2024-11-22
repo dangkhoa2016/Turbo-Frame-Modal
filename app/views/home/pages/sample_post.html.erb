@@ -1,0 +1,9 @@
+<% turbo_frame = params[:frame_id] || 'modal_frame' %>
+
+<!-- will not show in the modal -->
+<h3>Sample Post page</h3>
+<!-- will not show in the modal -->
+
+<%= turbo_frame_tag turbo_frame do %>
+  <%= render partial: 'home/partials/submitted_values' %>
+<% end %>
