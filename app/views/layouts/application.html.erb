@@ -14,6 +14,10 @@
   </head>
 
   <body>
+    <%= turbo_frame_tag 'nav_frame' do %>
+      <%= render 'layouts/nav' %>
+    <% end %>
+
     <%= yield %>
     <%= render 'layouts/modals' %>
 

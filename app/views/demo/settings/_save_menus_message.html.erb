@@ -1,0 +1,9 @@
+<% if flash.now[:error].present? %>
+  <div class='is-error alert alert-danger px-3 py-2'>
+    <%= flash.now[:error] %>
+  </div>
+<% elsif flash.now[:success].present? %>
+  <div class='alert alert-success px-3 py-2'>
+    <%= flash.now[:success] %>
+  </div>
+<% end %>
