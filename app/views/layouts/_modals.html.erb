@@ -1,0 +1,96 @@
+
+<!-- Main modal -->
+<div tabindex='-1' aria-hidden='true'
+  data-controller='modals' data-modals-backdrop-zindex-value='z-[1055]'
+  class='modal_frame modal hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 z-[1056] left-0 w-full md:inset-0 h-[calc(100%-1rem)] max-h-full'>
+  <div
+    class='modal-wrapper relative p-4 w-full max-w-2xl max-h-full opacity-0 duration-[300ms] transition ease-in-out -translate-y-8 transform'>
+    <!-- Modal content -->
+    <div class='relative bg-white rounded-lg shadow'>
+      <!-- Modal header -->
+      <div class='flex items-center justify-between p-3 md:p-4 border-b rounded-t'>
+        <h3 class='text-xl font-semibold text-gray-900'>
+          Main Modal
+        </h3>
+        <button type='button'
+          class='text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center'
+          data-modals-hide>
+          <svg class='w-3 h-3' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 14 14'>
+            <path stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'
+              d='m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6' />
+          </svg>
+          <span class='sr-only'>Close modal</span>
+        </button>
+      </div>
+      <!-- Modal body -->
+      <div class='p-3 md:p-4 space-y-4'>
+        <%= turbo_frame_tag 'modal_frame', data: { 'modals-target': 'turboFrame' } do %>
+          <div class='loading'>Loading...</div>
+        <% end %>
+        <div class='hidden text-center mt-1' data-modals-target='errorContainer'>
+          <button class='inline-block px-3 py-1.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none retry-button'>Retry</button>
+        </div>
+      </div>
+      <!-- Modal footer -->
+      <div class='flex justify-end p-3 md:p-4 border-t border-gray-200 rounded-b'>
+        <button data-modals-hide type='button'
+          class='me-2 text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center'>
+          Close
+        </button>
+        <div data-modals-target='errorContainer'>
+          <button class='inline-block px-3 py-1.5 bg-gray-800 text-white rounded-lg hover:bg-gray-700 focus:outline-none retry-button'>
+            Retry
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sub modal -->
+<div tabindex='-1' aria-hidden='true'
+  data-controller='modals' data-modals-backdrop-zindex-value='z-[1056]'
+  class='sub_modal_frame modal hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 z-[1057] left-0 w-full md:inset-0 h-[calc(100%-1rem)] max-h-full'>
+  <div
+    class='modal-wrapper relative p-4 w-full max-w-2xl max-h-full opacity-0 duration-[300ms] transition ease-in-out -translate-y-8 transform'>
+    <!-- Modal content -->
+    <div class='relative bg-white rounded-lg shadow'>
+      <!-- Modal header -->
+      <div class='flex items-center justify-between p-3 md:p-4 border-b rounded-t'>
+        <h3 class='text-xl font-semibold text-gray-900'>
+          Sub Modal
+        </h3>
+        <button type='button'
+          class='text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center'
+          data-modals-hide>
+          <svg class='w-3 h-3' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 14 14'>
+            <path stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'
+              d='m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6' />
+          </svg>
+          <span class='sr-only'>Close modal</span>
+        </button>
+      </div>
+      <!-- Modal body -->
+      <div class='p-3 md:p-4 space-y-4'>
+        <%= turbo_frame_tag 'sub_modal_frame', data: { 'modals-target': 'turboFrame' } do %>
+          <div class='loading'>Loading...</div>
+        <% end %>
+        <div class='hidden text-center mt-1' data-modals-target='errorContainer'>
+          <button class='inline-block px-3 py-1.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none retry-button'>Retry</button>
+        </div>
+      </div>
+      <!-- Modal footer -->
+      <div class='flex justify-end p-3 md:p-4 border-t border-gray-200 rounded-b'>
+        <button data-modals-hide type='button'
+          class='me-2 text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center'>
+          Close
+        </button>
+        <div data-modals-target='errorContainer'>
+          <button class='inline-block px-3 py-1.5 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none retry-button'>
+            Retry
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

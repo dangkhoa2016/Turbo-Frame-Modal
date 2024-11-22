@@ -1,0 +1,71 @@
+<div class='mx-3 mt-16 mb-12'>
+  <div class='p-5 text-center bg-gray-100 rounded-xl'>
+    <img class='mx-auto mt-4 mb-3' width='100' src='/favicon.png' alt='logo' />
+    <h1 class='text-4xl font-bold text-gray-800 mb-2'>Turbo Frame Modal</h1>
+
+    <p class='text-lg text-gray-600 mb-4'>
+      In this example, we use Stimulus controllers to manage the behavior of Bootstrap 5 modals. The <code class='text-pink-600'>modal_controller.js</code> manages both the main and sub-modal dialogs, providing seamless interaction without page reloads. With this setup, both modals share common behavior but are visually stacked using custom z-index values, ensuring that the sub-modal appears above the main modal when both are open simultaneously.
+    </p>
+
+    <p class='text-lg text-gray-600 mb-4'>
+      In the HTML, each modal is defined with the <code class='text-pink-600'>data-controller='modals'</code> attribute, which links it to the <code class='text-pink-600'>ModalController</code>. Within each modal, Turbo Frames are used to load content dynamically. The <code class='text-pink-600'>turbo_frame_tag</code> for the modal body is targeted by the <code class='text-pink-600'>modal#turboFrame</code> Stimulus action. Initially, the modal body displays a loading message, and once content is loaded, it replaces the 'Loading...' text with the actual content.
+    </p>
+
+    <p class='text-lg text-gray-600 mb-4'>
+      The modals are designed to handle errors and display an error message for easier debugging, along with two retry buttons to allow users to retry the action. When an error occurs, the error is parsed and displayed in the modal, and the error container (<code class='text-pink-600'>data-modals-target='errorContainer'</code>) is revealed in the modal body, showing the relevant error message. Inside this error container, one retry button is shown to let users attempt the action again. Additionally, a second retry button is placed in the modal footer, offering another option to retry the operation. Both retry buttons are dynamically displayed or hidden depending on the state of the content inside the modal, allowing for smooth error handling and user interaction.
+    </p>
+
+    <p class='text-lg text-gray-600 mb-4'>
+      To handle the stacking of modals, custom CSS is used to adjust the z-index values. The main modal (<code class='text-pink-600'>modal_frame</code>) has a z-index of 1056, while the sub-modal (<code class='text-pink-600'>sub_modal_frame</code>) is placed above it with a z-index of 1057. The backdrop elements (<code class='text-pink-600'>modal_frame_backdrop</code> and <code class='text-pink-600'>sub_modal_frame_backdrop</code>) are also adjusted to ensure proper layering and that the sub-modal’s backdrop is above the main modal’s backdrop.
+    </p>
+
+    <p class='text-lg text-gray-600 mb-4'>
+      By combining Stimulus for interactivity, Turbo for dynamic content loading, and Bootstrap 5 for modal styling and animations, this setup creates a smooth and intuitive user experience for interacting with multiple modals on a page.
+    </p>
+
+    <div id='main'>
+      <a href='#example1' class='inline-flex items-center bg-blue-500 text-white text-lg px-6 py-3 m-3 rounded-full hover:bg-blue-600 transition-all'>
+        Go to 'A' section
+        <svg class='bi ml-2' width='24' height='24'>
+          <use xlink:href='#arrow-right-short' />
+        </svg>
+      </a>
+      <a href='#example2' class='inline-flex items-center bg-red-500 text-white text-lg px-6 py-3 m-3 rounded-full hover:bg-red-600 transition-all'>
+        Go to 'B' section
+        <svg class='bi ml-2' width='24' height='24'>
+          <use xlink:href='#arrow-right-short' />
+        </svg>
+      </a>
+      <a href='#example3' class='inline-flex items-center bg-yellow-500 text-white text-lg px-6 py-3 m-3 rounded-full hover:bg-yellow-600 transition-all'>
+        Go to 'C' section
+        <svg class='bi ml-2' width='24' height='24'>
+          <use xlink:href='#arrow-right-short' />
+        </svg>
+      </a>
+      <a href='#example4' class='inline-flex items-center bg-teal-500 text-white text-lg px-6 py-3 m-3 rounded-full hover:bg-teal-600 transition-all'>
+        Go to 'D' section
+        <svg class='bi ml-2' width='24' height='24'>
+          <use xlink:href='#arrow-right-short' />
+        </svg>
+      </a>
+      <a href='#example5' class='inline-flex items-center border-2 border-gray-800 text-gray-800 text-lg px-6 py-3 m-3 rounded-full hover:bg-gray-800 hover:text-white transition-all'>
+        Go to 'E' section
+        <svg class='bi ml-2' width='24' height='24'>
+          <use xlink:href='#arrow-right-short' />
+        </svg>
+      </a>
+      <a href='#example6' class='inline-flex items-center bg-green-500 text-white text-lg px-6 py-3 m-3 rounded-full hover:bg-green-600 transition-all'>
+        Go to 'F' section
+        <svg class='bi ml-2' width='24' height='24'>
+          <use xlink:href='#arrow-right-short' />
+        </svg>
+      </a>
+      <a href='#example7' class='inline-flex items-center border-2 border-blue-800 text-blue-800 text-lg px-6 py-3 m-3 rounded-full hover:bg-blue-800 hover:text-white transition-all'>
+        Go to 'G' section
+        <svg class='bi ml-2' width='24' height='24'>
+          <use xlink:href='#arrow-right-short' />
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>

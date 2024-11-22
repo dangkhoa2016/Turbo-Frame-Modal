@@ -1,0 +1,12 @@
+<% wrapper_frame = defined?(locals) ? locals[:wrap_frame] : (defined?(wrap_frame) ? wrap_frame : 'sample_post_test_form1') %>
+<% partial_name_render = defined?(locals) ? locals[:partial_name] : (defined?(partial_name) ? partial_name : 'test_validate_form1') %>
+
+<%= turbo_frame_tag wrapper_frame do %>
+  <div class='p-4 mb-4 text-blue-800 border border-blue-300 rounded-lg bg-blue-50'>
+    <%= render 'home/partials/test_validate_form',
+      partial_name: partial_name_render,
+      wrap_frame: wrapper_frame,
+      data_options: { validate: true }, frame_id: 'sub_modal_frame'
+    %>
+  </div>
+<% end %>

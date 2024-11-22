@@ -3,17 +3,24 @@
   <head>
     <title>Turbo Frame Modal</title>
 
-    <meta name="turbo-prefetch" content="false">
+    <meta name='turbo-prefetch' content='false'>
 
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name='viewport' content='width=device-width,initial-scale=1'>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= stylesheet_link_tag 'tailwind', 'inter-font', 'data-turbo-track': 'reload' %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
     <%= yield %>
+    <%= render 'layouts/modals' %>
+
+    <!-- Scroll to Top Button -->
+    <button id='scrollToTopBtn' class='bg-blue-500 text-white py-2 px-4 rounded fixed bottom-0 right-0 m-3'
+      onclick='scrollToTop()' style='display: none;'>
+        Scroll to Top
+    </button>
   </body>
 </html>
