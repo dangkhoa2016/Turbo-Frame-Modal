@@ -1,0 +1,43 @@
+<% is_turbo_frame_modal = turbo_frame_request? %>
+
+<div data-controller='reorder-menus' class='container px-<%= is_turbo_frame_modal ? 0 : 6 %> max-w-3xl mx-auto'>
+  <h3 class='font-bold leading-snug tracking-normal text-slate-800 my-6 w-full text-2xl lg:max-w-3xl mx-auto lg:text-4xl text-center'>Menu Settings</h3>
+
+  <div class='flex flex-col sm:flex-row justify-between gap-8'>
+    <div class='relative w-full sm:w-1/2'>
+      <h2 class='text-center mb-1'>Available Items</h2>
+      <div class='flex flex-col rounded-lg bg-white shadow-sm border border-slate-200'>
+        <nav data-reorder-menus-target='available' class='list flex flex-col gap-1 p-1.5 min-h-[150px]'>
+          <% @available_menus.each do |menu| %>
+            <div class='text-slate-800 flex w-full items-center rounded-md px-2 py-1 transition-all hover:bg-blue-400 bg-slate-100 active:bg-blue-400' data-id='<%= menu[:id] %>'>
+              <%= menu[:name] %>
+            </div>
+          <% end %>
+        </nav>
+        <div class='px-2 justify-between buttons flex-row flex gap-2 my-3 max-[390px]:flex-col'>
+          <button class='moveAllFromLeft hidden sm:inline-block rounded-md bg-red-600 px-3 py-1.5 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-red-700 focus:shadow-none active:bg-red-700 hover:bg-red-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none'>Move all to right</button>
+          <button class='moveAllFromLeft sm:hidden inline-block rounded-md bg-red-600 px-3 py-1.5 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-red-700 focus:shadow-none active:bg-red-700 hover:bg-red-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none'>Move all to bottom</button>
+          <button id='sortLeft' class='rounded-md bg-blue-600 px-3 py-1.5 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-blue-700 focus:shadow-none active:bg-blue-700 hover:bg-blue-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none'>Sort list</button>
+        </div>
+      </div>
+    </div>
+
+    <div class='relative w-full sm:w-1/2'>
+      <h2 class='text-center mb-1'>Selected Items</h2>
+      <div class='flex flex-col rounded-lg bg-white shadow-sm border border-slate-200'>
+        <nav data-reorder-menus-target='selected' class='list flex flex-col gap-1 p-1.5 min-h-[150px]'>
+          <% @selected_menus.each do |menu| %>
+            <div class='text-slate-800 flex w-full items-center rounded-md px-2 py-1 transition-all hover:bg-blue-400 bg-slate-100 active:bg-blue-400' data-id='<%= menu[:id] %>'>
+              <%= menu[:name] %>
+            </div>
+          <% end %>
+        </nav>
+        <div class='px-2 justify-between buttons flex-row flex gap-2 my-3 max-[390px]:flex-col'>
+          <button class='moveAllFromRight hidden sm:inline-block rounded-md bg-red-600 px-3 py-1.5 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-red-700 focus:shadow-none active:bg-red-700 hover:bg-red-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none'>Move all to left</button>
+          <button class='moveAllFromRight sm:hidden btn btn-danger rounded-md bg-red-600 px-3 py-1.5 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-red-700 focus:shadow-none active:bg-red-700 hover:bg-red-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none'>Move all to top</button>
+          <button id='sortRight' class='rounded-md bg-blue-600 px-3 py-1.5 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-blue-700 focus:shadow-none active:bg-blue-700 hover:bg-blue-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none'>Sort list</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
