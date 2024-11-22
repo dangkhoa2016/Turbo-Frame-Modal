@@ -1,0 +1,146 @@
+
+<div id='example1' class='rounded-md bg-gray-100 my-3 p-3'>
+  <h4 class='text-xl font-medium mb-8'>A - Loop through all tables and show row count</h4>
+
+  <div class='p-4 border border-gray-400 rounded-lg bg-gray-300'>
+    <div>
+      <%= link_to 'Show tables row count', count_all_home_index_path, class: 'my-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5 focus:outline-none', data: { turbo_frame: 'modal_frame' } %>
+      <p class='text-gray-500 my-2'>1. Normal option: using the <code class='text-pink-600'>Main Modal</code> ({ turbo_frame: 'modal_frame' })</p>
+    </div>
+    <hr class='border-gray-400' />
+    <div class='mt-3'>
+      <%= link_to 'Show tables row count', count_all_home_index_path, class: 'my-2 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1.5', data: { turbo_frame: 'modal_frame', 'disable-on-request': true, 'show-modal-when-response': 'true' } %>
+      <p class='text-gray-500 my-2'>2. Disable button on request and show the <code class='text-pink-600'>Main Modal</code> ({ turbo_frame: 'modal_frame' }) when server response</p>
+    </div>
+    <hr class='border-gray-400' />
+    <div class='mt-3'>
+      <%= link_to 'Show tables row count', count_all_home_index_path, class: 'my-2 focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-3 py-1.5', data: { turbo_frame: 'modal_frame', 'disable-on-request': true } %>
+      <p class='text-gray-500 my-2'>3. Disable button on request and show the <code class='text-pink-600'>Main Modal</code> ({ turbo_frame: 'modal_frame' }) when click</p>
+    </div>
+    <hr class='border-gray-400' />
+    <div class='mt-3'>
+      <%= link_to 'Show tables row count button inside modal', count_all_in_modal_home_index_path, class: 'my-2 text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center', data: { turbo_frame: 'modal_frame' } %>
+      <p class='text-gray-500 my-2'>4. Show button in the <code class='text-pink-600'>Main Modal</code> ({ turbo_frame: 'modal_frame' }), when click the button, show the <code class='text-pink-600'>Sub Modal</code> ({ turbo_frame: 'sub_modal_frame' })</p>
+    </div>
+  </div>
+</div>
+
+<div id='example2' class='rounded-md bg-gray-100 my-3 p-3'>
+  <h4 class='text-xl font-medium mb-8'>B - Form without validation</h4>
+  <div class='grid grid-cols-2 gap-3'>
+    <div>
+      <div class='p-4 mb-4 text-blue-800 border border-blue-300 rounded-lg bg-blue-100'>
+        <%= render 'home/partials/sample_post_form', data_options: { 'show-modal-when-response': 'true' } %>
+      </div>
+      <p class='text-gray-500'>1. When submit the form, the button will be disabled, and when server response,
+      both error status and success status will be shown in the modal</p>
+    </div>
+    <div>
+      <div class='p-4 mb-4 text-green-800 border border-green-300 rounded-lg bg-green-100'>
+        <%= render 'home/partials/test_submit_form', locals: { frame_id: 'sub_modal_frame' } %>
+      </div>
+      <p class='text-gray-500'>2. When submit the form, the button will be disabled, and the modal will show loading spinner,
+      and when server response, both error status and success status will be shown in the modal</p>
+    </div>
+    <div>
+      <div class='p-4 mb-4 text-blue-800 border border-blue-300 rounded-lg bg-blue-100'>
+        <%= render 'home/partials/test_replace_the_form1' %>
+      </div>
+      <p class='text-gray-500'>3. When submit the form, the button will be disabled, and when server response,
+        if error the modal will show, else replace the form</p>
+    </div>
+    <div>
+      <div class='p-4 mb-4 text-blue-800 border border-blue-300 rounded-lg bg-blue-100'>
+        <%= render 'home/partials/test_replace_the_form2' %>
+      </div>
+      <p class='text-gray-500'>4. When submit the form, the button will be disabled, and the modal will show loading spinner,
+        and when server response, if error the modal will show, else replace the form</p>
+    </div>
+  </div>
+</div>
+
+<div id='example3' class='rounded-md bg-gray-100 p-3'>
+  <h4 class='text-xl font-medium mb-8'>C - Form inside modal without validation</h4>
+
+  <div class='grid grid-cols-2 gap-3'>
+    <div class='p-4 mb-4 text-blue-800 border border-blue-300 rounded-lg bg-blue-100'>
+      <%= link_to 'Inside modal 1', sample_post_inside_modal1_home_index_path, class: 'text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center', data: { turbo_frame: 'modal_frame' } %>
+      <p class='text-gray-500 my-2'>1. Like the <code class='text-pink-600'>B - Form without validation 2.</code>, but open form inside the <code class='text-pink-600'>Main Modal</code>, when submit the form,
+      the <code class='text-pink-600'>Sub Modal</code> will show loading spinner, and when server response,
+        both error status and success status will be shown in the modal</p>
+    </div>
+    <div class='p-4 mb-4 text-blue-800 border border-blue-300 rounded-lg bg-blue-100'>
+      <%= link_to 'Inside modal 2', sample_post_inside_modal2_home_index_path, class: 'focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-3 py-1.5', data: { turbo_frame: 'modal_frame' } %>
+      <p class='text-gray-500 my-2'>Like the <code class='text-pink-600'>C 1.</code>, but sleep 3 seconds before response the form when click the link</p>
+    </div>
+  </div>
+</div>
+
+<div id='example4' class='rounded-md bg-gray-100 p-3 my-3'>
+  <h4 class='text-xl font-medium mb-8'>D - Sample <code class='text-pink-600'>GET</code> request with error response</h4>
+
+  <div class='p-4 mb-4 text-red-800 border border-red-300 rounded-lg bg-red-100'>
+    <div>
+      <%= link_to 'Sample get no action', sample_get_no_action_home_index_path, class: 'my-2 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-1.5', data: { turbo_frame: 'modal_frame', } %>
+      <p class='text-gray-500 my-2'>Open <code class='text-pink-600'>Main Modal</code> with no action handle to test the error response and showing the error message in the modal</p>
+    </div>
+    <hr class='border-red-300' />
+    <div class='mt-3'>
+      <%= link_to 'Sample get no template', sample_get_no_template_home_index_path, class: 'my-2 focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5', data: { turbo_frame: 'sub_modal_frame', 'disable-on-request': 'true' } %>
+      <p class='text-gray-500 my-2'>Open <code class='text-pink-600'>Sub Modal</code> with no template to test the error response and showing the error message in the modal</p>
+    </div>
+  </div>
+</div>
+
+<div id='example5' class='rounded-md bg-gray-100 row p-3'>
+  <h4 class='text-xl font-medium mb-8'>E - Sample post inside modal</h4>
+
+  <div class='grid grid-cols-2 gap-3'>
+    <div class='p-4 mb-4 text-blue-800 border border-blue-300 rounded-lg bg-blue-100'>
+      <%= link_to 'Inside modal 3', sample_post_inside_modal3_home_index_path, class: 'focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-3 py-1.5', data: { turbo_frame: 'modal_frame', 'disable-on-request': 'true' } %>
+      <p class='text-gray-500 my-2'>Open form inside modal (sleep 2 seconds) with options: <code class='text-pink-600'>{ 'show-modal-when-response': 'true' }</code>, when submit the form, the <code class='text-pink-600'>Sub Modal</code> will show loading spinner,
+      and when server response the <code class='text-pink-600'>Sub Modal</code> will show the response</p>
+    </div>
+    <div class='p-4 mb-4 text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-100'>
+      <%= link_to 'Inside modal 4', sample_post_inside_modal4_home_index_path, class: 'border-2 border-blue-800 text-blue-800 text-lg px-3 py-1.5 font-medium text-sm rounded-lg hover:bg-blue-800 hover:text-white transition-all', data: { turbo_frame: 'modal_frame', 'disable-on-request': 'true' } %>
+      <p class='text-gray-500 my-2'>Open form inside the <code class='text-pink-600'>Main Modal</code> with options: <code class='text-pink-600'>{ 'handle-by-target': 'true' }</code>, when submit the form, the <code class='text-pink-600'>Sub Modal</code> will show loading spinner,
+      and when server response the <code class='text-pink-600'>Sub Modal</code> will close and the <code class='text-pink-600'>Main Modal</code> will show the response</p>
+    </div>
+  </div>
+</div>
+
+<div id='example6' class='rounded-md bg-gray-100 my-3 p-3'>
+  <h4 class='text-xl font-medium mb-8'>F - Form with validation</h4>
+
+  <div class='grid grid-cols-2 gap-3'>
+    <div>
+      <%= render 'home/partials/test_validate_form1' %>
+      <p class='text-gray-500'>1. When submit the form, the button will be disabled, and when server response the form will be
+      replaced by <code class='text-pink-600'>&lt;turbo-stream&gt;</code> tag with the response, the modal will show when submit the form and hide
+      when server response</p>
+    </div>
+    <div>
+      <%= render 'home/partials/test_validate_form2' %>
+      <p class='text-gray-500'>2. Like the <code class='text-pink-600'>F 1.</code>, but the modal won't show</p>
+    </div>
+  </div>
+</div>
+
+<div id='example7' class='rounded-md bg-gray-100 p-3'>
+  <h4 class='text-xl font-medium mb-8'>G - Form inside modal with validation</h4>
+
+  <div class='grid grid-cols-2 gap-3'>
+    <div class='p-4 mb-4 text-blue-800 border border-blue-300 rounded-lg bg-blue-100'>
+      <%= link_to 'Validate inside modal 1', test_modal_form1_home_index_path, class: 'focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-3 py-1.5', data: { turbo_frame: 'modal_frame' } %>
+      <p class='text-gray-500 my-2'>Open form inside modal, like the <code class='text-pink-600'>F - Form with validation 1.</code>, using the <code class='text-pink-600'>Main Modal</code>,
+        when submit the form, the <code class='text-pink-600'>Sub Modal</code> will show loading spinner, and the <code class='text-pink-600'>Main Modal</code> will show the response,
+       but when data is valid,
+       the form will be replaced with the response by <code class='text-pink-600'>&lt;turbo-stream&gt;</code> tag, using another partial</p>
+    </div>
+    <div class='p-4 border border-gray-300 rounded-lg bg-gray-300'>
+      <%= link_to 'Validate inside modal 2', test_modal_form2_home_index_path, class: 'focus:outline-none text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-1.5', data: { turbo_frame: 'modal_frame' } %>
+      <p class='text-gray-500 my-2'>Open form inside the <code class='text-pink-600'>Main Modal</code>, like the <code class='text-pink-600'>F - Form with validation 2.</code>, but 
+      the <code class='text-pink-600'>Sub Modal</code> won't show</p>
+    </div>
+  </div>
+</div>
