@@ -1,0 +1,29 @@
+
+.bg-item {
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+}
+
+.bg-item:hover {
+  background-color: rgb(96 165 250) !important;
+}
+
+.bg-item.active {
+  background-color: rgb(59 130 246) !important;
+}
+
+nav.list {
+  min-height: 150px;
+}
+
+@media screen and (min-width: 576px) and (max-width: 620px) {
+  .buttons {
+    flex-direction: column !important;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .buttons {
+    flex-direction: column !important;
+  }
+}
