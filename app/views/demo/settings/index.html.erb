@@ -1,0 +1,80 @@
+<div class='container bg-white my-5'>
+  <h4 class='pb-4 border-bottom'>System settings</h4>
+
+  <div class='py-2'>
+    <div class='row py-2'>
+      <div class='col-md-6'>
+        <label for='app-name'>Application Name</label>
+        <input type='text' name='app-name' class='bg-light form-control'
+          placeholder='Rails v7' id='app-name' />
+      </div>
+      <div class='col-md-6 pt-md-0 pt-3'>
+        <label for='app-email'>Application Email</label>
+        <input type='text' name='app-email' class='bg-light form-control'
+          placeholder='rails@test.local' id='app-email' />
+      </div>
+    </div>
+    <div class='row py-2'>
+      <div class='col-md-6'>
+        <div class='form-check'>
+          <input class='form-check-input' type='checkbox'
+            name='send-error-log' id='send-error-log'>
+          <label class='form-check-label' for='send-error-log'>
+            Send error logs to the developers
+          </label>
+        </div>
+      </div>
+      <div class='col-md-6 pt-md-0 pt-3'>
+        <div class='form-check'>
+          <input class='form-check-input' type='checkbox' value=''
+            name='auto-restart-worker' id='auto-restart-worker'>
+          <label class='form-check-label' for='auto-restart-worker'>
+            Auto restart background worker on failure
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class='row py-2'>
+      <div class='col-md-6'>
+        <label for='server-timezone'>Server Timezone</label>
+        <select class='bg-light form-select' aria-label='Server Timezone'
+          name='server-timezone' id='server-timezone'>
+          <option selected>Select Timezone</option>
+          <option value='1'>UTC</option>
+          <option value='2'>Greenwich Mean Time</option>
+          <option value='3'>Eastern Standard Time</option>
+          <option value='4'>Central Standard Time</option>
+          <option value='5'>Mountain Standard Time</option>
+          <option value='6'>Pacific Standard Time</option>
+          <option value='7'>Alaska Standard Time</option>
+        </select>
+      </div>
+      <div class='col-md-6 pt-md-0 pt-3'>
+        <label for='default-language'>Language</label>
+        <div class='arrow'>
+          <select name='default-language' class='bg-light form-select' id='default-language'>
+            <option value='english' selected=''>English</option>
+            <option value='english_us'>English (United States)</option>
+            <option value='chinese'>Chinese</option>
+            <option value='arab'>Arabic</option>
+            <option value='french'>French</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class='row py-2'>
+      <div class='col-md-6'>
+        <%= link_to 'Reorder Navigation 1', settings_reorder_menus_path(turbo_frame: 'sub_modal_frame', handle_by_target: true), class: 'btn btn-info', data: { turbo_frame: 'modal_frame' }  %>
+        <p class='text-muted mt-2'>Test modal controller</p>
+      </div>
+      <div class='col-md-6 pt-md-0 pt-3'>
+        <%= link_to 'Reorder Navigation 2', settings_reorder_menus_path, class: 'btn btn-warning', data: { turbo_frame: 'modal_frame' }  %>
+        <p class='text-muted mt-2'>Test modal controller</p>
+      </div>
+    </div>
+    <div class='py-3 mt-4 border-bottom border-top'>
+      <button class='btn btn-primary me-3'>Save Changes</button>
+      <button class='btn border button'>Cancel</button>
+    </div>
+  </div>
+</div>

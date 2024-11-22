@@ -1,0 +1,45 @@
+<% is_turbo_frame_modal = turbo_frame_request? %>
+<% flex_class = is_turbo_frame_modal ? 'flex-md-row' : 'flex-sm-row' %>
+<% buttons_flex_class = is_turbo_frame_modal ? 'flex-lg-row flex-md-column' : 'flex-sm-row' %>
+<% move_all_button_class = is_turbo_frame_modal ? 'md' : 'sm' %>
+<div data-controller='reorder-menus' class='container-lg px-<%= is_turbo_frame_modal ? '0' : '4' %> mx-auto'>
+  <h3 class='fw-bold text-dark my-4 text-center fs-2 fs-lg-4'>Menu Settings</h3>
+
+  <div class='d-flex flex-column justify-content-between gap-3 <%= flex_class %>'>
+    <div class='position-relative w-100 w-sm-50'>
+      <h2 class='text-center h4 fs-6 fw-light'>Available Items</h2>
+      <div class='d-flex flex-column rounded-3 bg-white shadow-sm border border-light'>
+        <nav data-reorder-menus-target='available' class='list d-flex flex-column gap-2 p-2'>
+          <% @available_menus.each do |menu| %>
+            <div class='text-dark d-flex w-100 align-items-center rounded-2 px-2 py-1 transition-all bg-item' data-id='<%= menu[:id] %>'>
+              <%= menu[:name] %>
+            </div>
+          <% end %>
+        </nav>
+        <div class='px-2 buttons d-flex justify-content-between gap-2 mt-3 mb-2 <%= buttons_flex_class %>'>
+          <button class='moveAllFromLeft d-none d-<%= move_all_button_class %>-inline-block btn btn-sm btn-danger shadow-sm'>Move all to right</button>
+          <button class='moveAllFromLeft d-<%= move_all_button_class %>-none btn btn-danger btn-sm shadow-sm'>Move all to bottom</button>
+          <button id='sortLeft' class='btn btn-primary btn-sm shadow-sm'>Sort list</button>
+        </div>
+      </div>
+    </div>
+
+    <div class='position-relative w-100 w-sm-50'>
+      <h2 class='text-center h4 fs-6 fw-light'>Selected Items</h2>
+      <div class='d-flex flex-column rounded-3 bg-white shadow-sm border border-light'>
+        <nav data-reorder-menus-target='selected' class='list d-flex flex-column gap-2 p-2'>
+          <% @selected_menus.each do |menu| %>
+            <div class='text-dark d-flex w-100 align-items-center rounded-2 px-2 py-1 transition-all bg-item' data-id='<%= menu[:id] %>'>
+              <%= menu[:name] %>
+            </div>
+          <% end %>
+        </nav>
+        <div class='px-2 buttons d-flex justify-content-between gap-2 mt-3 mb-2 <%= buttons_flex_class %>'>
+          <button class='moveAllFromRight d-none d-<%= move_all_button_class %>-inline-block btn-sm btn btn-danger shadow-sm'>Move all to left</button>
+          <button class='moveAllFromRight d-<%= move_all_button_class %>-none btn btn-danger btn-sm shadow-sm'>Move all to top</button>
+          <button id='sortRight' class='btn btn-primary btn-sm shadow-sm'>Sort list</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
