@@ -6,3 +6,4 @@ pin "@hotwired/stimulus", to: "stimulus.min.js"
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin_all_from "app/javascript/controllers", under: "controllers"
 pin 'flowbite', to: 'https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.turbo.min.js'
+pin "choices.js", to: "https://cdn.jsdelivr.net/npm/choices.js@11.0.2/+esm"
