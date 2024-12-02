@@ -6,7 +6,8 @@ module Demo::SettingsHelper
     { id: 4, name: 'User Permissions', path: :user_permissions },
     { id: 5, name: 'Product Categories', path: :product_categories },
     { id: 6, name: 'Notifications', path: :notifications },
-    { id: 7, name: 'Settings', path: :settings },
+    { id: 7, name: 'Choices Js', path: :choices_js },
+    { id: 8, name: 'Settings', path: :settings },
 
   ]
 
