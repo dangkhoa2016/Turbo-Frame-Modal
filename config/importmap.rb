@@ -7,3 +7,4 @@ pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin_all_from "app/javascript/controllers", under: "controllers"
 pin "bootstrap", to: "bootstrap.min.js"
 pin "@popperjs/core", to: "popper.js", preload: true
+pin "choices.js", to: "https://cdn.jsdelivr.net/npm/choices.js@11.0.2/+esm"
