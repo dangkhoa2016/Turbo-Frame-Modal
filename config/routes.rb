@@ -33,6 +33,10 @@ Rails.application.routes.draw do
   get 'product_categories', to: 'demo/static_pages#show', page: 'product_categories', as: :product_categories
   get 'notifications', to: 'demo/static_pages#show', page: 'notifications', as: :notifications
   
+  get 'choices-js', to: 'demo/static_pages#show', page: 'choices-js', as: :choices_js
+  get 'demo/pets', to: 'demo/pets#index', as: :pet_list
+  get 'demo/pet-hobbies', to: 'demo/pets#pet_hobbies', as: :pet_hobbies
+
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
