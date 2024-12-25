@@ -96,7 +96,7 @@ export default class extends Controller {
       return;
     
     setTimeout(() => {
-      controller.close();
+      controller.closeModal();
     }, 2000);
   }
 }

@@ -1,5 +1,5 @@
 
-<div id='example1' class='rounded-md bg-gray-100 my-3 p-3'>
+<div id='example1' class='rounded-md bg-gray-100 mb-3 p-3'>
   <h4 class='text-xl font-medium mb-8'>A - Loop through all tables and show row count</h4>
 
   <div class='p-4 border border-gray-400 rounded-lg bg-gray-300'>
@@ -25,8 +25,9 @@
   </div>
 </div>
 
-<div id='example2' class='rounded-md bg-gray-100 my-3 p-3'>
+<div id='example2' class='rounded-md bg-gray-100 mb-3 p-3'>
   <h4 class='text-xl font-medium mb-8'>B - Form without validation</h4>
+
   <div class='grid grid-cols-2 gap-3'>
     <div>
       <div class='p-4 mb-4 text-blue-800 border border-blue-300 rounded-lg bg-blue-100'>
@@ -59,7 +60,7 @@
   </div>
 </div>
 
-<div id='example3' class='rounded-md bg-gray-100 p-3'>
+<div id='example3' class='rounded-md bg-gray-100 mb-3 p-3'>
   <h4 class='text-xl font-medium mb-8'>C - Form inside modal without validation</h4>
 
   <div class='grid grid-cols-2 gap-3'>
@@ -76,7 +77,7 @@
   </div>
 </div>
 
-<div id='example4' class='rounded-md bg-gray-100 p-3 my-3'>
+<div id='example4' class='rounded-md bg-gray-100 mb-3 p-3'>
   <h4 class='text-xl font-medium mb-8'>D - Sample <code class='text-pink-600'>GET</code> request with error response</h4>
 
   <div class='p-4 mb-4 text-red-800 border border-red-300 rounded-lg bg-red-100'>
@@ -92,7 +93,7 @@
   </div>
 </div>
 
-<div id='example5' class='rounded-md bg-gray-100 row p-3'>
+<div id='example5' class='rounded-md bg-gray-100 mb-3 p-3'>
   <h4 class='text-xl font-medium mb-8'>E - Sample post inside modal</h4>
 
   <div class='grid grid-cols-2 gap-3'>
@@ -109,7 +110,7 @@
   </div>
 </div>
 
-<div id='example6' class='rounded-md bg-gray-100 my-3 p-3'>
+<div id='example6' class='rounded-md bg-gray-100 mb-3 p-3'>
   <h4 class='text-xl font-medium mb-8'>F - Form with validation</h4>
 
   <div class='grid grid-cols-2 gap-3'>
@@ -126,7 +127,7 @@
   </div>
 </div>
 
-<div id='example7' class='rounded-md bg-gray-100 p-3'>
+<div id='example7' class='rounded-md bg-gray-100 mb-3 p-3'>
   <h4 class='text-xl font-medium mb-8'>G - Form inside modal with validation</h4>
 
   <div class='grid grid-cols-2 gap-3'>
@@ -141,6 +142,119 @@
       <%= link_to 'Validate inside modal 2', test_modal_form2_home_index_path, class: 'focus:outline-none text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-1.5', data: { turbo_frame: 'modal_frame' } %>
       <p class='text-gray-500 my-2'>Open form inside the <code class='text-pink-600'>Main Modal</code>, like the <code class='text-pink-600'>F - Form with validation 2.</code>, but 
       the <code class='text-pink-600'>Sub Modal</code> won't show</p>
+    </div>
+  </div>
+</div>
+
+<div id='example8' class='rounded-md bg-gray-100 mb-3 p-3'>
+  <h4 class='text-xl font-medium mb-8'>H - Confirmation modals</h4>
+
+  <div class='grid grid-cols-2 gap-3'>
+    <div class='p-4 mb-4 text-blue-800 border border-blue-300 rounded-lg bg-blue-100'>
+      <%= link_to 'Confirmation modal 1', test_confirm_modal_home_index_path, class: 'focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-3 py-1.5',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'get', turbo_confirm: 'Are you sure?' } %>
+      <p class='text-gray-500 my-2'>Open confirmation modal, when click on the submit button, do a GET request, the modal will show the response itself</p>
+    </div>
+    <div class='p-4 border border-gray-300 rounded-lg bg-gray-100'>
+      <%= link_to 'Confirmation modal 2', test_confirm_modal_home_index_path, class: 'focus:outline-none text-white bg-orange-400 hover:bg-orange-500 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-3 py-1.5',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'get', turbo_confirm: 'Are you sure you want to do a GET request?', handle_modal: 'sub_modal_frame', confirm_yes: 'Agree' } %>
+      <p class='text-gray-500 my-2'>Open confirmation modal, when click on the submit button, do a GET request, open the <code class='text-pink-600'>Sub Modal</code> to show loading and response</p>
+    </div>
+  
+    <div class='p-4 mb-4 text-blue-800 border border-blue-300 rounded-lg bg-blue-100'>
+      <%= link_to 'Confirmation modal 3', test_confirm_modal_home_index_path(id:1, date: Date.current), class: 'focus:outline-none text-white bg-gray-400 hover:bg-gray-500 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-1.5',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'get', turbo_confirm: 'Are you sure?', closable: false, confirm_yes: 'Sure' } %>
+      <p class='text-gray-500 my-2'>Open confirmation modal, when click on the submit button, do a GET request, the modal will show the response itself, click outside the modal will not close the modal</p>
+    </div>
+    <div class='p-4 border border-gray-300 rounded-lg bg-gray-100'>
+      <%= link_to 'Confirmation modal 4', test_confirm_modal_home_index_path(id:1, date: Date.current), class: 'focus:outline-none text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-1.5',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'get', turbo_confirm: 'Are you sure?', closable: false, handle_modal: 'sub_modal_frame', confirm_yes: 'OK' } %>
+      <p class='text-gray-500 my-2'>Open confirmation modal, when click on the submit button, do a GET request, open the <code class='text-pink-600'>Sub Modal</code> to show loading and response, click outside the modal will not close the modal</p>
+    </div>
+    
+    <div class='p-4 mb-4 text-red-800 border border-red-300 rounded-lg bg-red-100'>
+      <%= link_to 'Confirmation modal 5', test_confirm_modal_home_index_path, class: 'focus:outline-none text-white bg-purple-400 hover:bg-purple-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-3 py-1.5',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'post',
+          turbo_confirm: 'Are you sure you want to do a POST request?',
+          closable: false, confirm_yes: 'Sure', post_params: { name: 'John Doe' } } %>
+      <p class='text-gray-500 my-2'>Open confirmation modal, when click on the submit button, do a POST request, the modal will show the response itself, click outside the modal will not close the modal</p>
+    </div>
+    <div class='p-4 border border-red-300 rounded-lg bg-red-100'>
+      <%= link_to 'Confirmation modal 6.1', test_confirm_modal_home_index_path, class: 'focus:outline-none text-white bg-purple-400 hover:bg-purple-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-3 py-1.5',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'post',
+          turbo_confirm: 'Are you sure?', closable: false,
+          handle_modal: 'sub_modal_frame', confirm_yes: 'OK', post_params: { name: 'John Doe' } } %>
+      <p class='text-gray-500 my-2'>Open confirmation modal, when click on the submit button, do a POST request, open the <code class='text-pink-600'>Sub Modal</code> to show loading and response, click outside the modal will not close the modal</p>
+    </div>
+    <div class='p-4 border border-red-300 rounded-lg bg-red-100'>
+      <%= link_to 'Confirmation modal 6.2', test_confirm_modal_home_index_path, class: 'focus:outline-none text-white bg-purple-400 hover:bg-purple-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-3 py-1.5',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'post', handle_by_target: true,
+          turbo_confirm: 'Are you sure?', closable: false,
+          handle_modal: 'sub_modal_frame', confirm_yes: 'OK', post_params: { name: 'John Doe' } } %>
+      <p class='text-gray-500 my-2'>Open confirmation modal, when click on the submit button,
+      do a POST request, open the <code class='text-pink-600'>Sub Modal</code> to show loading,
+      but when server response the <code class='text-pink-600'>Sub Modal</code> will hide and the <code class='text-pink-600'>Main Modal</code> will show the response,
+      click outside the modal will not close the modal</p>
+    </div>
+    <div></div>
+
+    <div class='p-4 mb-4 text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-100'>
+      <%= link_to 'Confirmation modal 7', test_confirm_modal_home_index_path, class: 'focus:outline-none text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1.5',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'delete', remote: true,
+          turbo_confirm: 'Are you sure you want to do a DELETE request?',
+          closable: false, confirm_yes: 'I want', delete_params: { id: 1, date: Date.current } } %>
+      <p class='text-gray-500 my-2'>Open confirmation modal, when click on the submit button, do a DELETE request, the modal will show the response itself, click outside the modal will not close the modal</p>
+    </div>
+    <div class='p-4 border border-yellow-300 rounded-lg bg-yellow-100'>
+      <%= link_to 'Confirmation modal 8.1', test_confirm_modal_home_index_path, class: 'focus:outline-none text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1.5',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'delete', remote: true,
+          turbo_confirm: 'Are you sure?', closable: false, delete_params: { id: 1, date: Date.current },
+          handle_modal: 'sub_modal_frame', confirm_yes: 'Absolutely' } %>
+      <p class='text-gray-500 my-2'>Open confirmation modal, when click on the submit button, do a DELETE request, open the <code class='text-pink-600'>Sub Modal</code> to show loading and response, click outside the modal will not close the modal</p>
+    </div>
+    <div class='p-4 border border-yellow-300 rounded-lg bg-yellow-100'>
+      <%= link_to 'Confirmation modal 8.2', test_confirm_modal_home_index_path, class: 'focus:outline-none text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1.5',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'delete', remote: true, handle_by_target: true,
+          turbo_confirm: 'Are you sure?', closable: false, delete_params: { id: 1, date: Date.current },
+          handle_modal: 'sub_modal_frame', confirm_yes: 'Absolutely' } %>
+      <p class='text-gray-500 my-2'>Open confirmation modal, when click on the submit button,
+      do a DELETE request, open the <code class='text-pink-600'>Sub Modal</code> to show loading,
+      but when server response the <code class='text-pink-600'>Sub Modal</code> will hide and the <code class='text-pink-600'>Main Modal</code> will show the response,
+      click outside the modal will not close the modal</p>
+    </div>
+  </div>
+</div>
+
+<div id='example9' class='rounded-md bg-gray-100 mb-3 p-3'>
+  <h4 class='text-xl font-medium mb-8'>I - Alert modals</h4>
+
+  <div class='grid grid-cols-2 gap-3'>
+    <div class='p-4 mb-4 text-gray-800 border border-gray-300 rounded-lg bg-gray-100'>
+      <%= link_to 'Alert 1', '#', class: 'focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-3 py-1.5',
+        data: { turbo_frame: 'modal_frame', alert: 'Sample alert message' } %>
+      <p class='text-gray-500 my-2'>Open modal to show the alert message</p>
+    </div>
+    <div class='p-4 border border-purple-300 rounded-lg bg-purple-100'>
+      <%= link_to 'Alert 2', '#', class: 'focus:outline-none text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-1.5',
+        data: { turbo_frame: 'sub_modal_frame', alert_selector: '#sample_alert_selector' } %>
+      <p class='text-gray-500 my-2'>Open modal to show the alert message from a selector, example: <code class='text-pink-600'>#sample_alert_selector</code></p>
+    </div>
+
+    <div id='sample_alert_selector' class='hidden'>
+      <div class='p-4 border border-red-300 rounded-lg bg-red-100'>
+        <p class='text-red-800'>Sample alert message</p>
+      </div>
+    </div>
+
+    <div class='p-4 mb-4 text-green-800 border border-green-300 rounded-lg bg-green-100'>
+      <%= link_to 'Alert 1', '#', class: 'focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-3 py-1.5',
+        data: { turbo_frame: 'modal_frame', alert: 'Sample alert message', closable: false } %>
+      <p class='text-gray-500 my-2'>Open modal to show the alert message, click outside the modal will not close the modal</p>
+    </div>
+    <div class='p-4 border border-red-300 rounded-lg bg-blue-100'>
+      <%= link_to 'Alert 2', '#', class: 'focus:outline-none text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-1.5',
+        data: { turbo_frame: 'sub_modal_frame', alert_selector: '#sample_alert_selector', closable: false } %>
+      <p class='text-gray-500 my-2'>Open modal to show the alert message from a selector, click outside the modal will not close the modal, example: <code class='text-pink-600'>#sample_alert_selector</code></p>
     </div>
   </div>
 </div>

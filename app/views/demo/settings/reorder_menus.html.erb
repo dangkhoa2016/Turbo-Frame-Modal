@@ -20,8 +20,8 @@
     <% end %>
 
     <%= f.hidden_field :selected_menus, value: @user_menu_ids.to_json %>
-    <%= f.submit 'Save selected menus', class: 'text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center' %>
-    <%= f.submit 'Save selected menus and close', class: 'btn-close-on-success inline-flex my-2 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-1.5' %>
+    <%= f.submit 'Save selected menus', class: 'cursor-pointer text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center' %>
+    <%= f.submit 'Save selected menus and close', class: 'cursor-pointer btn-close-on-success inline-flex my-2 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-1.5' %>
   <% end %>
 
 <% end %>

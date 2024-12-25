@@ -23,49 +23,88 @@
       By combining Stimulus for interactivity, Turbo for dynamic content loading, and Bootstrap 5 for modal styling and animations, this setup creates a smooth and intuitive user experience for interacting with multiple modals on a page.
     </p>
 
-    <div id='main'>
-      <a href='#example1' class='inline-flex items-center bg-blue-500 text-white text-lg px-6 py-3 m-3 rounded-full hover:bg-blue-600 transition-all'>
-        Go to 'A' section
-        <svg class='bi ml-2' width='24' height='24'>
-          <use xlink:href='#arrow-right-short' />
-        </svg>
-      </a>
-      <a href='#example2' class='inline-flex items-center bg-red-500 text-white text-lg px-6 py-3 m-3 rounded-full hover:bg-red-600 transition-all'>
-        Go to 'B' section
-        <svg class='bi ml-2' width='24' height='24'>
-          <use xlink:href='#arrow-right-short' />
-        </svg>
-      </a>
-      <a href='#example3' class='inline-flex items-center bg-yellow-500 text-white text-lg px-6 py-3 m-3 rounded-full hover:bg-yellow-600 transition-all'>
-        Go to 'C' section
-        <svg class='bi ml-2' width='24' height='24'>
-          <use xlink:href='#arrow-right-short' />
-        </svg>
-      </a>
-      <a href='#example4' class='inline-flex items-center bg-teal-500 text-white text-lg px-6 py-3 m-3 rounded-full hover:bg-teal-600 transition-all'>
-        Go to 'D' section
-        <svg class='bi ml-2' width='24' height='24'>
-          <use xlink:href='#arrow-right-short' />
-        </svg>
-      </a>
-      <a href='#example5' class='inline-flex items-center border-2 border-gray-800 text-gray-800 text-lg px-6 py-3 m-3 rounded-full hover:bg-gray-800 hover:text-white transition-all'>
-        Go to 'E' section
-        <svg class='bi ml-2' width='24' height='24'>
-          <use xlink:href='#arrow-right-short' />
-        </svg>
-      </a>
-      <a href='#example6' class='inline-flex items-center bg-green-500 text-white text-lg px-6 py-3 m-3 rounded-full hover:bg-green-600 transition-all'>
-        Go to 'F' section
-        <svg class='bi ml-2' width='24' height='24'>
-          <use xlink:href='#arrow-right-short' />
-        </svg>
-      </a>
-      <a href='#example7' class='inline-flex items-center border-2 border-blue-800 text-blue-800 text-lg px-6 py-3 m-3 rounded-full hover:bg-blue-800 hover:text-white transition-all'>
-        Go to 'G' section
-        <svg class='bi ml-2' width='24' height='24'>
-          <use xlink:href='#arrow-right-short' />
-        </svg>
-      </a>
+    <div id='main' class='grid sm:grid-cols-2 grid-cols-1'>
+      <div class='mb-4'>
+        <a href='#example1' class='inline-flex items-center bg-blue-500 text-white text-lg px-6 py-3 rounded-full hover:bg-blue-600 transition-all'>
+          Go to 'A' section
+          <svg class='bi ml-2' width='24' height='24'>
+            <use xlink:href='#arrow-right-short' />
+          </svg>
+        </a>
+        <p class='text-gray-500 mb-0 mt-1'>Loop through all tables and show row count</p>
+      </div>
+      <div class='mb-4'>
+        <a href='#example2' class='inline-flex items-center bg-red-500 text-white text-lg px-6 py-3 rounded-full hover:bg-red-600 transition-all'>
+          Go to 'B' section
+          <svg class='bi ml-2' width='24' height='24'>
+            <use xlink:href='#arrow-right-short' />
+          </svg>
+        </a>
+        <p class='text-gray-500 mb-0 mt-1'>Form without validation</p>
+      </div>
+      <div class='mb-4'>
+        <a href='#example3' class='inline-flex items-center bg-yellow-500 text-white text-lg px-6 py-3 rounded-full hover:bg-yellow-600 transition-all'>
+          Go to 'C' section
+          <svg class='bi ml-2' width='24' height='24'>
+            <use xlink:href='#arrow-right-short' />
+          </svg>
+        </a>
+        <p class='text-gray-500 mb-0 mt-1'>Form inside modal without validation</p>
+      </div>
+      <div class='mb-4'>
+        <a href='#example4' class='inline-flex items-center bg-teal-500 text-white text-lg px-6 py-3 rounded-full hover:bg-teal-600 transition-all'>
+          Go to 'D' section
+          <svg class='bi ml-2' width='24' height='24'>
+            <use xlink:href='#arrow-right-short' />
+          </svg>
+        </a>
+        <p class='text-gray-500 mb-0 mt-1'>Sample <code class='text-pink-600'>GET</code> request with error response</p>
+      </div>
+      <div class='mb-4'>
+        <a href='#example5' class='inline-flex items-center border-2 border-gray-800 text-gray-800 text-lg px-6 py-3 rounded-full hover:bg-gray-800 hover:text-white transition-all'>
+          Go to 'E' section
+          <svg class='bi ml-2' width='24' height='24'>
+            <use xlink:href='#arrow-right-short' />
+          </svg>
+        </a>
+        <p class='text-gray-500 mb-0 mt-1'>Sample <code class='text-pink-600'>POST</code> inside modal</p>
+      </div>
+      <div class='mb-4'>
+        <a href='#example6' class='inline-flex items-center bg-green-500 text-white text-lg px-6 py-3 rounded-full hover:bg-green-600 transition-all'>
+          Go to 'F' section
+          <svg class='bi ml-2' width='24' height='24'>
+            <use xlink:href='#arrow-right-short' />
+          </svg>
+        </a>
+        <p class='text-gray-500 mb-0 mt-1'>Form with validation</p>
+      </div>
+      <div class='mb-4'>
+        <a href='#example7' class='inline-flex items-center border-2 border-blue-800 text-blue-800 text-lg px-6 py-3 rounded-full hover:bg-blue-800 hover:text-white transition-all'>
+          Go to 'G' section
+          <svg class='bi ml-2' width='24' height='24'>
+            <use xlink:href='#arrow-right-short' />
+          </svg>
+        </a>
+        <p class='text-gray-500 mb-0 mt-1'>Form inside modal with validation</p>
+      </div>
+      <div class='mb-4'>
+        <a href='#example8' class='inline-flex items-center border-2 border-red-800 text-red-800 text-lg px-6 py-3 rounded-full hover:bg-red-800 hover:text-white transition-all'>
+          Go to 'H' section
+          <svg class='bi ml-2' width='24' height='24'>
+            <use xlink:href='#arrow-right-short' />
+          </svg>
+        </a>
+        <p class='text-gray-500 mb-0 mt-1'>Confirmation modals</p>
+      </div>
+      <div class='mb-4'>
+        <a href='#example9' class='inline-flex items-center border-2 border-orange-800 text-orange-800 text-lg px-6 py-3 rounded-full hover:bg-orange-800 hover:text-white transition-all'>
+          Go to 'I' section
+          <svg class='bi ml-2' width='24' height='24'>
+            <use xlink:href='#arrow-right-short' />
+          </svg>
+        </a>
+        <p class='text-gray-500 mb-0 mt-1'>Alert modals</p>
+      </div>
     </div>
   </div>
 </div>
