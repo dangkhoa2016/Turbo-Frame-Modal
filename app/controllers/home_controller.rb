@@ -41,7 +41,7 @@ class HomeController < ApplicationController
     return if sample_error
 
     @result = sample_post_params
-    render template: 'pages/sample_post'
+    render template: 'pages/sample_post', layout: false
   end
 
   def sample_post_validate
@@ -106,6 +106,14 @@ class HomeController < ApplicationController
 
   def sample_post_inside_modal4
     render 'pages/sample_post_inside_modal4'
+  end
+
+  def test_confirm_modal
+    # sleep 3 seconds
+    sleep 2
+    return if sample_error
+
+    render partial: 'partials/test_confirm_modal'
   end
 
   private

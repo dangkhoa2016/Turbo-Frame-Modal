@@ -21,16 +21,23 @@ export default class extends Controller {
     return 'Aborted by user';
   }
 
+  get confirmButton() {
+    return this.element.querySelector('[data-confirm-yes]');
+  }
+
   connect() {
+    this.confirmButtonClicked = false;
+    this.backupConfirmMessage = null;
     this.turboFrameTargetId = this.turboFrameTarget.id;
     this.initEventHandlers();
     this.initModal();
     this.initHandleElements();
     this.initFrameEvent();
-    this.initRetry();
+    this.initRetryButtonClickHandle();
+    this.initConfirmButtonClickHandle();
     this.setLoading();
 
-    document.addEventListener('turbo:before-stream-render', this.turboBeforeStreamRender);
+    document.addEventListener('turbo:before-stream-render', this.handleTurboBeforeStreamRender);
   }
 
   disconnect() {
@@ -44,7 +51,6 @@ export default class extends Controller {
   }
 
   initEventHandlers() {
-    this.turboBeforeStreamRender = this.turboBeforeStreamRender.bind(this);
     this.setModalBackdropId = this.setModalBackdropId.bind(this);
     this.showBsModal = this.showBsModal.bind(this);
     this.hideBsModal = this.hideBsModal.bind(this);
@@ -56,8 +62,9 @@ export default class extends Controller {
     this.awaitHandleBeforeFetchRequest = this.awaitHandleBeforeFetchRequest.bind(this);
     this.handleBeforeFetchResponse = this.handleBeforeFetchResponse.bind(this);
     this.initFrameEvent = this.initFrameEvent.bind(this);
-    this.turboBeforeStreamRender = this.turboBeforeStreamRender.bind(this);
+    this.handleTurboBeforeStreamRender = this.handleTurboBeforeStreamRender.bind(this);
     this.initHandleElements = this.initHandleElements.bind(this);
+    this.handleModalClose = this.handleModalClose.bind(this);
   }
 
   handleOtherRender(stream) {
@@ -79,7 +86,7 @@ export default class extends Controller {
           }
 
           this.modal.forceClose = true;
-          this.close();
+          this.closeModal();
           this.constructor.sleep(800).then(() => {
             this.modal.forceClose = false;
           });
@@ -92,7 +99,7 @@ export default class extends Controller {
     }
   }
 
-  turboBeforeStreamRender(event) {
+  handleTurboBeforeStreamRender(event) {
     if (!this.isModalOpen) {
       this.handleOtherRender(event.detail.newStream);
       return;
@@ -153,7 +160,7 @@ export default class extends Controller {
   }
 
   cleanupEventHandlers() {
-    document.removeEventListener('turbo:before-stream-render', this.turboBeforeStreamRender);
+    document.removeEventListener('turbo:before-stream-render', this.handleTurboBeforeStreamRender);
   }
 
   cleanupModal() {
@@ -172,7 +179,7 @@ export default class extends Controller {
 
   showBsModal() {
     if (this.modal.forceClose)
-      this.forceClose();
+      this.forceCloseModal();
     else
       this.setModalBackdropId();
   }
@@ -188,36 +195,49 @@ export default class extends Controller {
     if (!document.closingModal)
       document.closingModal = this.turboFrameTargetId;
     else if (document.closingModal !== this.turboFrameTargetId) {
-      ev.preventDefault();
-      ev.stopPropagation();
+      if (ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+      }
       return;
     }
 
+    let isAbort = false;
     if (this.abortController) {
       this.abortController.abort(this.abortReason);
-      console.log('Abort signal sent:', this.abortController, this.turboFrameTargetId);
       this.removeDisabledAttribute();
       this.abortController = null;
+      isAbort = true;
     }
 
+    this.element.removeAttribute('aria-hidden');
     this.modal.forceClose = false;
-    this.waitForModalReallyHide(() => {
+    this.waitForModalToHide(() => {
       delete document.closingModal;
+      this.element.removeAttribute('aria-hidden');
+
+      if (this.confirmButton)
+        this.confirmButton.classList.add('d-none');
     });
+
+    const event = new CustomEvent('modals-controller:close', {
+      detail: { isAbort },
+    });
+    this.element.dispatchEvent(event);
   }
 
-  waitForModalReallyHide(cb, currentTry = 0, maxRetry = 20) {
+  waitForModalToHide(callback, currentTry = 0, maxRetry = 20) {
     if (currentTry >= maxRetry) {
-      if (cb) cb();
+      if (callback) callback();
       return;
     }
 
     if (this.element.style.display !== 'none') {
       this.constructor.sleep(50).then(() => {
-        this.waitForModalReallyHide(cb, currentTry + 1);
+        this.waitForModalToHide(callback, currentTry + 1);
       });
     } else {
-      if (cb) cb();
+      if (callback) callback();
     }
   }
 
@@ -256,7 +276,10 @@ export default class extends Controller {
 
     this.hideErrorContainers();
     const { fetchOptions } = event.detail;
-    this.abortController = new AbortController();
+    this.modifyFetchOptions(fetchOptions);
+
+    if (!this.abortController)
+      this.abortController = new AbortController();
     fetchOptions.signal = this.abortController.signal;
 
     if (event.target.tagName === 'FORM') {
@@ -267,6 +290,34 @@ export default class extends Controller {
       this.handleBeforeFetchRequest(event);
   }
 
+  modifyFetchOptions(fetchOptions) {
+    const request_method = this.triggerElement?.getAttribute('data-turbo-method');
+    if (!request_method)
+      return;
+
+    const method = request_method.toLowerCase();
+    if (method !== 'post' && method !== 'delete')
+      return;
+
+    const formData = new FormData();
+    formData.append('_method', method.toUpperCase());
+
+    const paramsAttr = this.triggerElement?.getAttribute(`data-${method}-params`);
+    if (paramsAttr) {
+      try {
+        const params = JSON.parse(paramsAttr);
+        for (const key in params) {
+          formData.append(key, params[key]);
+        }
+      } catch (error) {
+        console.error('Error parsing params:', error);
+      }
+    }
+  
+    fetchOptions.method = method.toUpperCase();
+    fetchOptions.body = formData;
+  }
+  
   handleBeforeFetchRequest(event) {
     if (this.triggerElement?.getAttribute('data-show-modal-when-response') === 'true' ||
       event.target.getAttribute('data-show-modal-when-response') === 'true') {
@@ -274,7 +325,7 @@ export default class extends Controller {
       return;
     }
 
-    this.open(event, this.turboFrameTarget.getAttribute('complete') == null);
+    this.openModal(event, this.turboFrameTarget.getAttribute('complete') == null);
   }
 
   waitForFrameReplaced(selector, callback, currentTry = 0, maxRetry = 20) {
@@ -295,30 +346,23 @@ export default class extends Controller {
     }
   }
 
-  forceClose(event) {
+  forceCloseModal(event) {
     if (this.modal.forceClose) {
-      this.close(event);
+      this.closeModal(event);
 
       this.constructor.sleep(50).then(() => {
-        this.forceClose(event);
+        this.forceCloseModal(event);
       });
     }
   }
 
   handleByTarget(event) {
     if (event.target.getAttribute('data-turbo-frame') === this.turboFrameTargetId) {
-      const fetchResponse = event.detail.fetchResponse.response.clone();
-      if (fetchResponse.status !== 200) {
-        event.stopPropagation();
-        event.preventDefault();
-
-        this.parseContentAndDisplayError(fetchResponse);
-        this.open(event);
+      if (this.handleError(event))
         return;
-      }
 
       this.modal.forceClose = true;
-      this.close(event);
+      this.closeModal(event);
       this.constructor.sleep(800).then(() => {
         this.modal.forceClose = false;
       });
@@ -326,49 +370,45 @@ export default class extends Controller {
       return;
     }
 
-    const turboFrame = event.target.closest('turbo-frame');
-    if (turboFrame && turboFrame?.id !== this.turboFrameTargetId) {
-      const fetchResponse = event.detail.fetchResponse.response.clone();
-      if (fetchResponse.status !== 200) {
-        event.preventDefault();
-
-        this.parseContentAndDisplayError(fetchResponse);
-        this.open(event);
-        return;
-      }
-
-      this.modal.forceClose = true;
-      this.close(event);
-      this.constructor.sleep(800).then(() => {
-        this.modal.forceClose = false;
-      });
-
+    if (this.handleError(event))
       return;
-    }
+
+    const fetchResponse = event.detail.fetchResponse.response.clone();
+    const fetchResponseIsStream = fetchResponse.headers.get('Content-Type').includes('text/vnd.turbo-stream.html');
+    if (fetchResponseIsStream)
+      return;
+
+    this.setFrameContentFromResponse(fetchResponse);
+  }
+
+  handleError(event) {
+    if (!event || !event.detail || !event.detail.fetchResponse)
+      return false;
 
     const fetchResponse = event.detail.fetchResponse.response.clone();
     if (fetchResponse.status !== 200) {
       event.preventDefault();
 
       this.parseContentAndDisplayError(fetchResponse);
-      this.open(event);
-      return;
-    } else {
-      const fetchResponseIsStream = fetchResponse.headers.get('Content-Type').includes('text/vnd.turbo-stream.html');
-      if (fetchResponseIsStream)
-        return;
+      this.openModal(event);
 
-      fetchResponse.text().then((text) => {
+      return true;
+    }
+
+    return false;
+  }
+
+  setFrameContentFromResponse(response) {
+    response.text().then((text) => {
         this.setFrameContent(text);
-        const turboFrames = this.turboFrameTarget.querySelectorAll('turbo-frame');
-        turboFrames.forEach((frame) => {
-          frame.removeAttribute('id');
-        });
+        // const turboFrames = this.turboFrameTarget.querySelectorAll('turbo-frame');
+        // turboFrames.forEach((frame) => {
+        //   frame.removeAttribute('id');
+        // });
         this.initHandleElements(this.turboFrameTarget);
       }).catch((e) => {
         console.log('Error parsing the response HTML:', e);
       });
-    }
   }
 
   handleFormResponse(event) {
@@ -383,26 +423,24 @@ export default class extends Controller {
       return;
     }
 
-    const fetchResponse = event.detail.fetchResponse.response.clone();
-    if (fetchResponse.status !== 200) {
-      event.preventDefault();
+    if (this.handleError(event))
+      return;
 
-      this.parseContentAndDisplayError(fetchResponse);
-      this.open(event);
+    const fetchResponse = event.detail.fetchResponse.response.clone();
+    const fetchResponseIsStream = fetchResponse.headers.get('Content-Type').includes('text/vnd.turbo-stream.html');
+    if (fetchResponseIsStream) {
+      if (this.noNeedOpen)
+        this.noNeedOpen = false;
+
       return;
     }
 
-    const fetchResponseIsStream = fetchResponse.headers.get('Content-Type').includes('text/vnd.turbo-stream.html');
-    if (fetchResponseIsStream) {
-      if (this.noNeedOpen) {
-        this.noNeedOpen = false;
-        return;
-      }
-    }
+    event.preventDefault();
+    this.setFrameContentFromResponse(fetchResponse);
 
     if (this.triggerElement?.getAttribute('data-show-modal-when-response') === 'true' ||
       event.target.getAttribute('data-show-modal-when-response') === 'true') {
-      this.open(event);
+      this.openModal(event);
     }
   }
 
@@ -412,14 +450,45 @@ export default class extends Controller {
     if (fetchResponse.status !== 200) {
       event.preventDefault();
 
-      this.parseContentAndDisplayError(fetchResponse);
-      this.open(event);
+      const handleModal = this.getHandleModalController();
+      if (handleModal) {
+        if (this.triggerElement.getAttribute('data-handle-by-target') === 'true') {
+          this.parseContentAndDisplayError(fetchResponse);
+          handleModal.abortController = null;
+          handleModal.closeModal(event);
+        } else {
+          handleModal.parseContentAndDisplayError(fetchResponse);
+          handleModal.triggerElement = this.confirmButton;
+        }
+      } else {
+        this.parseContentAndDisplayError(fetchResponse);
+        this.openModal(event);
+      }
       return;
     }
 
     if (this.triggerElement?.getAttribute('data-show-modal-when-response') === 'true' ||
       event.target.getAttribute('data-show-modal-when-response') === 'true')
-      this.open(event);
+      this.openModal(event);
+
+    const fetchResponseIsStream = fetchResponse.headers.get('Content-Type').includes('text/vnd.turbo-stream.html');
+    if (!fetchResponseIsStream) {
+      event.preventDefault();
+
+      const handleModal = this.getHandleModalController();
+      if (handleModal) {
+        if (this.triggerElement.getAttribute('data-handle-by-target') === 'true') {
+          this.setFrameContentFromResponse(fetchResponse);
+          handleModal.abortController = null;
+          handleModal.closeModal(event);
+        } else {
+          handleModal.setFrameContentFromResponse(fetchResponse);
+          this.closeModal(event);
+        }
+      }
+      else
+        this.setFrameContentFromResponse(fetchResponse);
+    }
   }
 
   handleBeforeFetchResponse(event) {
@@ -475,42 +544,78 @@ export default class extends Controller {
         element.addEventListener('turbo:before-fetch-request', controller.awaitHandleBeforeFetchRequest);
         element.addEventListener('turbo:before-fetch-response', controller.handleBeforeFetchResponse);
         element.addEventListener('turbo:fetch-request-error', controller.handleFormFetchRequestError);
-      }
-      else
-        element.addEventListener('turbo:click', controller.handleTurboClickEvent);
+      } else
+        controller.addClickEventToElement(element);
+    });
+  }
+
+  addClickEventToElement(element) {
+    const confirmMessage = element.getAttribute('data-turbo-confirm');
+    if (confirmMessage) {
+      element.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        this.backupConfirmMessage = confirmMessage;
+        this.setFrameContent(confirmMessage);
+        if (this.confirmButton) {
+          const confirmYes = element.getAttribute('data-confirm-yes') || 'Yes';
+          this.confirmButton.classList.remove('d-none');
+          this.confirmButton.textContent = confirmYes;
+        }
+
+        this.openModalByTriggerElement(e, element, false);
+      });
+      return;
+    }
+
+    let alertMessage = element.getAttribute('data-alert');
+    if (alertMessage) {
+      element.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.setFrameContent(alertMessage);
+        this.openModalByTriggerElement(e, element, false);
+      });
+      return;
+    }
+
+    alertMessage = element.getAttribute('data-alert-selector');
+    if (alertMessage) {
+      element.addEventListener('click', (e) => {
+        e.preventDefault();
+        const alertElement = document.querySelector(alertMessage);
+        if (alertElement)
+          this.setFrameContent(alertElement.innerHTML);
+        this.openModalByTriggerElement(e, element, false);
+    });
+      return;
+    }
+
+    element.addEventListener('turbo:click', this.handleTurboClickEvent);
+  }
+
+  handleFetchRequestError(event) {
+    event.preventDefault();
+
+    if (event.detail.error === this.abortReason)
+      return;
+
+    this.modal.forceClose = true;
+    this.constructor.sleep(500).then(() => {
+      this.closeModal(event);
+      this.constructor.sleep(800).then(() => {
+        this.modal.forceClose = false;
+      });
     });
   }
 
   handleTurboFrameFetchRequestError(event) {
     console.log('turbo:fetch-request-error on turbo-frame fired', event);
-    event.preventDefault();
-
-    if (event.detail.error === this.abortReason)
-      return;
-
-    this.modal.forceClose = true;
-    this.constructor.sleep(500).then(() => {
-      this.close(event);
-      this.constructor.sleep(800).then(() => {
-        this.modal.forceClose = false;
-      });
-    });
+    this.handleFetchRequestError(event);
   }
 
   handleFormFetchRequestError(event) {
     console.log('turbo:fetch-request-error on form fired', event);
-    event.preventDefault();
-    
-    if (event.detail.error === this.abortReason)
-      return;
-
-    this.modal.forceClose = true;
-    this.constructor.sleep(500).then(() => {
-      this.close(event);
-      this.constructor.sleep(800).then(() => {
-        this.modal.forceClose = false;
-      });
-    });
+    this.handleFetchRequestError(event);
   }
 
   initFrameEvent(element) {
@@ -527,16 +632,75 @@ export default class extends Controller {
     element.addEventListener('turbo:before-fetch-request', this.awaitHandleBeforeFetchRequest);
   }
 
-  initRetry() {
+  initRetryButtonClickHandle() {
     this.errorContainerTargets.forEach((container) => {
       const retryButton = container.querySelector('.retry-button');
-      retryButton.addEventListener('click', this.retryRequest);
+      if (retryButton)
+        retryButton.addEventListener('click', this.retryRequest);
     });
   }
 
-  retryRequest() {
+  initConfirmButtonClickHandle() {
+    if (!this.confirmButton)
+      return;
+
+    this.confirmButton.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      this.fireConfirmAction(ev);
+    });
+  }
+
+  handleModalClose(event) {
+    const { detail } = event || {};
+    const { isAbort } = detail || {};
+    if (isAbort)
+      this.confirmButton.classList.remove('d-none');
+    this.setFrameContent(this.backupConfirmMessage);
+    event.target.removeEventListener('modals-controller:close', this.handleModalClose);
+  }
+
+  fireConfirmAction(ev) {
+    const handleModal = this.getHandleModalController();
+    this.abortController = new AbortController();
+    if (handleModal) {
+      handleModal.abortController = this.abortController;
+      handleModal.element.addEventListener('modals-controller:close', this.handleModalClose);
+
+      handleModal.openModalByTriggerElement(ev, this.triggerElement, true);
+    }
+    else
+      this.setLoading();
+  
+    this.confirmButtonClicked = true;
+    const event = new CustomEvent('turbo:click', {
+      cancelable: true,
+      bubbles: true,
+      composed: true,
+      detail: {
+        url: this.triggerElement.getAttribute('href'),
+        originalEvent: ev
+      }
+    });
+
+    this.confirmButton.classList.add('d-none');
+    this.triggerElement.dispatchEvent(event);
+  }
+
+  getHandleModalController() {
+    const handleModal = this.triggerElement.getAttribute('data-handle-modal');
+    if (handleModal) {
+      const modal = document.querySelector(`[data-controller="modals"].${handleModal}`);
+      return this.application.getControllerForElementAndIdentifier(modal, 'modals');
+    }
+  }
+
+  retryRequest(ev) {
     this.setLoading();
-    this.triggerElement.click();
+    this.hideErrorContainers();
+    if (this.confirmButtonClicked && this.confirmButton)
+      this.fireConfirmAction(ev);
+    else
+      this.triggerElement.click();
   }
 
   parseContentAndDisplayError(response) {
@@ -639,19 +803,36 @@ export default class extends Controller {
       <div class='spinner-border text-primary' role='status'>
         <span class='visually-hidden'>Loading...</span>
       </div>
-    </div>`
-    );
+    </div>
+    `);
   }
 
-  open(event, setLoading = true) {
+  openModal(event, setLoading = true) {
     if (!this.isModalOpen) {
+      this.hideErrorContainers();
+
       if (setLoading)
         this.setLoading();
       this.modal.show();
     }
   }
 
-  close(event) {
+  openModalByTriggerElement(event, element = null, setLoading = false) {
+    if (!element)
+      element = this.event.target;
+    this.triggerElement = element;
+    const closable = element.getAttribute('data-closable');
+    this.modal._config.backdrop = (closable == null || closable.toString() === 'true') ? true : 'static';
+
+    this.openModal(event, setLoading);
+  }
+
+  closeModal(event) {
+    // if (this.confirmButton)
+    //   this.confirmButton.classList.add('d-none');
+    this.modal._config.backdrop = true;
+    this.backupConfirmMessage = null;
+    this.confirmButtonClicked = false;
     this.modal.hide();
   }
 

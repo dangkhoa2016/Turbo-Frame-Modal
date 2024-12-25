@@ -16,6 +16,10 @@ Rails.application.routes.draw do
       get :sample_get_no_action
       get :test_modal_form1
       get :test_modal_form2
+      
+      get :test_confirm_modal
+      post :test_confirm_modal
+      delete :test_confirm_modal
     end
   end
 

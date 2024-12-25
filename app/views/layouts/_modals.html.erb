@@ -1,7 +1,7 @@
 <!-- Main modal -->
 <div class='modal fade modal_frame' tabindex='-1'
   data-controller='modals' data-modals-backdrop-zindex-value='1055'
-  aria-labelledby='mainModalLabel' aria-hidden='true'>
+  aria-labelledby='mainModalLabel'>
   <div class='modal-dialog modal-lg'>
     <!-- Modal content -->
     <div class='modal-content'>
@@ -21,6 +21,7 @@
       </div>
       <!-- Modal footer -->
       <div class='modal-footer'>
+        <button type='button' class='d-none btn btn-primary' data-confirm-yes>Yes</button>
         <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
         <div data-modals-target='errorContainer'>
           <button type='button' class='btn btn-dark retry-button'>Retry</button>
@@ -33,7 +34,7 @@
 <!-- Sub modal -->
 <div class='modal fade sub_modal_frame' tabindex='-1'
   data-controller='modals' data-modals-backdrop-zindex-value='1056'
-  aria-labelledby='subModalLabel' aria-hidden='true'>
+  aria-labelledby='subModalLabel'>
   <div class='modal-dialog modal-lg'>
     <!-- Modal content -->
     <div class='modal-content'>
@@ -53,6 +54,7 @@
       </div>
       <!-- Modal footer -->
       <div class='modal-footer'>
+        <button type='button' class='d-none btn btn-warning' data-confirm-yes>Yes</button>
         <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
         <div data-modals-target='errorContainer'>
           <button type='button' class='btn btn-danger retry-button'>Retry</button>

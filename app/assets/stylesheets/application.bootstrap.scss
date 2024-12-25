@@ -2,3 +2,17 @@
 @import 'bootstrap-icons/font/bootstrap-icons';
 @import './menu_settings';
 @import './choices-js';
+
+.bg-purple {
+  background-color: #ac81f394;
+}
+.btn-purple {
+  background-color: #6610f294;
+  border-color: #6610f294;
+  color: white;
+}
+.btn-purple:hover {
+  background-color: #5d1cc694;
+  border-color: #6610f294;
+  color: white;
+}

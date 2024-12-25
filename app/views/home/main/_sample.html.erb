@@ -1,5 +1,5 @@
 
-<div id='example1' class='rounded bg-body-tertiary row pt-3'>
+<div id='example1' class='rounded bg-body-tertiary row mb-3 pt-3'>
   <h4 class='col-12 mb-2'>A - Loop through all tables and show row count</h4>
 
   <div class='col-12'>
@@ -27,7 +27,7 @@
   </div>
 </div>
 
-<div id='example2' class='rounded bg-body-tertiary my-3 pt-3 row'>
+<div id='example2' class='rounded bg-body-tertiary row mb-3 pt-3'>
   <h4 class='col-12 mb-2'>B - Form without validation</h4>
 
   <div class='col-md-6'>
@@ -60,7 +60,7 @@
   </div>
 </div>
 
-<div id='example3' class='rounded bg-body-tertiary pt-3 row'>
+<div id='example3' class='rounded bg-body-tertiary row mb-3 pt-3'>
   <h4 class='col-12 mb-2'>C - Form inside modal without validation</h4>
 
   <div class='col-md-6'>
@@ -79,7 +79,7 @@
   </div>
 </div>
 
-<div id='example4' class='rounded bg-body-tertiary row pt-3 my-3'>
+<div id='example4' class='rounded bg-body-tertiary row mb-3 pt-3'>
   <h4 class='col-12 mb-2'>D - Sample <code>GET</code> request with error response</h4>
 
   <div class='col'>
@@ -97,8 +97,8 @@
   </div>
 </div>
 
-<div id='example5' class='rounded bg-body-tertiary row pt-3'>
-  <h4 class='col-12 mb-2'>E - Sample post inside modal</h4>
+<div id='example5' class='rounded bg-body-tertiary row mb-3 pt-3'>
+  <h4 class='col-12 mb-2'>E - Sample <code>POST</code> inside modal</h4>
 
   <div class='col-md-6'>
     <div class='alert alert-info my-4'>
@@ -116,7 +116,7 @@
   </div>
 </div>
 
-<div id='example6' class='rounded bg-body-tertiary row my-3 pt-3'>
+<div id='example6' class='rounded bg-body-tertiary row mb-3 pt-3'>
   <h4 class='col-12 mb-2'>F - Form with validation</h4>
 
   <div class='col-md-6'>
@@ -131,7 +131,7 @@
   </div>
 </div>
 
-<div id='example7' class='rounded bg-body-tertiary pt-3 row'>
+<div id='example7' class='rounded bg-body-tertiary row mb-3 pt-3'>
   <h4 class='col-12 mb-2'>G - Form inside modal with validation</h4>
 
   <div class='col-md-6'>
@@ -148,6 +148,151 @@
       <%= link_to 'Validate inside modal 2', test_modal_form2_home_index_path, class: 'btn btn-success', data: { turbo_frame: 'modal_frame' } %>
       <p class='text-secondary mb-0 mt-2'>Open form inside the <code>Main Modal</code>, like the <code>F - Form with validation 2.</code>, but 
       the <code>Sub Modal</code> won't show</p>
+    </div>
+  </div>
+</div>
+
+<div id='example8' class='rounded bg-body-tertiary row mb-3 pt-3'>
+  <h4 class='col-12 mb-2'>H - Confirmation modals</h4>
+
+  <div class='col-md-6'>
+    <div class='alert alert-primary my-4'>
+      <%= link_to 'Confirmation modal 1', test_confirm_modal_home_index_path, class: 'btn btn-warning',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'get', turbo_confirm: 'Are you sure?' } %>
+      <p class='text-secondary mb-0 mt-2'>Open confirmation modal, when click on the submit button, do a GET request, the modal will show the response itself</p>
+    </div>
+  </div>
+  <div class='col-md-6'>
+    <div class='alert alert-secondary my-4'>
+      <%= link_to 'Confirmation modal 2', test_confirm_modal_home_index_path, class: 'btn btn-warning',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'get', turbo_confirm: 'Are you sure you want to do a GET request?',
+          handle_modal: 'sub_modal_frame', confirm_yes: 'Agree' } %>
+      <p class='text-secondary mb-0 mt-2'>Open confirmation modal, when click on the submit button, do a GET request,
+        open the <code>Sub Modal</code> to show loading and response</p>
+    </div>
+  </div>
+  <div class='col-md-6'>
+    <div class='alert alert-primary my-4'>
+      <%= link_to 'Confirmation modal 3', test_confirm_modal_home_index_path(id:1, date: Date.current), class: 'btn btn-secondary',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'get', turbo_confirm: 'Are you sure?', closable: false, confirm_yes: 'Sure' } %>
+      <p class='text-secondary mb-0 mt-2'>Open confirmation modal, when click on the submit button, do a GET request,
+        the modal will show the response itself, click outside the modal will not close the modal</p>
+    </div>
+  </div>
+  <div class='col-md-6'>
+    <div class='alert alert-secondary my-4'>
+      <%= link_to 'Confirmation modal 4', test_confirm_modal_home_index_path(id:1, date: Date.current), class: 'btn btn-success',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'get', turbo_confirm: 'Are you sure?',
+          closable: false, handle_modal: 'sub_modal_frame', confirm_yes: 'OK' } %>
+      <p class='text-secondary mb-0 mt-2'>Open confirmation modal, when click on the submit button, do a GET request,
+        open the <code>Sub Modal</code> to show loading and response, click outside the modal will not close the modal</p>
+    </div>
+  </div>
+
+  <div class='col-md-6'>
+    <div class='alert alert-danger my-4'>
+      <%= link_to 'Confirmation modal 5', test_confirm_modal_home_index_path, class: 'btn btn-purple',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'post',
+          turbo_confirm: 'Are you sure you want to do a POST request?',
+          closable: false, confirm_yes: 'Sure', post_params: { name: 'John Doe' } } %>
+      <p class='text-secondary mb-0 mt-2'>Open confirmation modal, when click on the submit button, do a POST request,
+        the modal will show the response itself, click outside the modal will not close the modal</p>
+    </div>
+  </div>
+  <div class='col-md-6'>
+    <div class='alert alert-danger my-4'>
+      <%= link_to 'Confirmation modal 6.1', test_confirm_modal_home_index_path, class: 'btn btn-purple',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'post',
+          turbo_confirm: 'Are you sure?', closable: false,
+          handle_modal: 'sub_modal_frame', confirm_yes: 'OK', post_params: { name: 'John Doe' } } %>
+      <p class='text-secondary mb-0 mt-2'>Open confirmation modal, when click on the submit button, do a POST request,
+        open the <code>Sub Modal</code> to show loading and response, click outside the modal will not close the modal</p>
+    </div>
+  </div>
+  <div class='col-md-6'>
+    <div class='alert alert-danger my-4'>
+      <%= link_to 'Confirmation modal 6.2', test_confirm_modal_home_index_path, class: 'btn btn-purple',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'post', handle_by_target: true,
+          turbo_confirm: 'Are you sure?', closable: false,
+          handle_modal: 'sub_modal_frame', confirm_yes: 'OK', post_params: { name: 'John Doe' } } %>
+      <p class='text-secondary mb-0 mt-2'>Open confirmation modal, when click on the submit button,
+        do a POST request, open the <code>Sub Modal</code> to show loading,
+        but when server response the <code>Sub Modal</code> will hide and the <code>Main Modal</code> will show the response,
+        click outside the modal will not close the modal</p>
+    </div>
+  </div>
+  <div class='col-md-6'></div>
+
+  <div class='col-md-6'>
+    <div class='alert alert-warning my-4'>
+      <%= link_to 'Confirmation modal 7', test_confirm_modal_home_index_path, class: 'btn btn-danger',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'delete', remote: true,
+          turbo_confirm: 'Are you sure you want to do a DELETE request?',
+          closable: false, confirm_yes: 'I want', delete_params: { id: 1, date: Date.current } } %>
+      <p class='text-secondary mb-0 mt-2'>Open confirmation modal, when click on the submit button, do a DELETE request,
+        the modal will show the response itself, click outside the modal will not close the modal</p>
+    </div>
+  </div>
+  <div class='col-md-6'>
+    <div class='alert alert-warning my-4'>
+      <%= link_to 'Confirmation modal 8.1', test_confirm_modal_home_index_path, class: 'btn btn-danger',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'delete', remote: true,
+          turbo_confirm: 'Are you sure?', closable: false, delete_params: { id: 1, date: Date.current },
+          handle_modal: 'sub_modal_frame', confirm_yes: 'Absolutely' } %>
+      <p class='text-secondary mb-0 mt-2'>Open confirmation modal, when click on the submit button, do a DELETE request,
+        open the <code>Sub Modal</code> to show loading and response, click outside the modal will not close the modal</p>
+    </div>
+  </div>
+  <div class='col-md-6'>
+    <div class='alert alert-warning my-4'>
+      <%= link_to 'Confirmation modal 8.2', test_confirm_modal_home_index_path, class: 'btn btn-danger',
+        data: { turbo_frame: 'modal_frame', turbo_method: 'delete', remote: true, handle_by_target: true,
+          turbo_confirm: 'Are you sure?', closable: false, delete_params: { id: 1, date: Date.current },
+          handle_modal: 'sub_modal_frame', confirm_yes: 'Absolutely' } %>
+      <p class='text-secondary mb-0 mt-2'>Open confirmation modal, when click on the submit button,
+        do a DELETE request, open the <code>Sub Modal</code> to show loading,
+        but when server response the <code>Sub Modal</code> will hide and the <code>Main Modal</code> will show the response,
+        click outside the modal will not close the modal</p>
+    </div>
+  </div>
+</div>
+
+<div id='example9' class='rounded bg-body-tertiary row mb-3 pt-3'>
+  <h4 class='col-12 mb-2'>I - Alert modals</h4>
+
+  <div class='col-md-6'>
+    <div class='alert alert-secondary my-4'>
+      <%= link_to 'Alert 1', '#', class: 'btn btn-warning',
+        data: { turbo_frame: 'modal_frame', alert: 'Sample alert message' } %>
+      <p class='text-secondary mb-0 mt-2'>Open modal to show the alert message</p>
+    </div>
+  </div>
+  <div class='col-md-6'>
+    <div class='alert bg-purple my-4'>
+      <%= link_to 'Alert 2', '#', class: 'btn btn-success',
+        data: { turbo_frame: 'sub_modal_frame', alert_selector: '#sample_alert_selector' } %>
+      <p class='text-secondary mb-0 mt-2'>Open modal to show the alert message from a selector, example: <code>#sample_alert_selector</code></p>
+    </div>
+
+    <div id='sample_alert_selector' class='d-none'>
+      <div class='alert alert-danger mb-0'>
+        Sample alert message
+      </div>
+    </div>
+  </div>
+  <div class='col-md-6'>
+    <div class='alert alert-success my-4'>
+      <%= link_to 'Alert 1', '#', class: 'btn btn-warning',
+        data: { turbo_frame: 'modal_frame', alert: 'Sample alert message', closable: false } %>
+      <p class='text-secondary mb-0 mt-2'>Open modal to show the alert message, click outside the modal will not close the modal</p>
+    </div>
+  </div>
+  <div class='col-md-6'>
+    <div class='alert alert-danger my-4'>
+      <%= link_to 'Alert 2', '#', class: 'btn btn-success',
+        data: { turbo_frame: 'sub_modal_frame', alert_selector: '#sample_alert_selector', closable: false } %>
+      <p class='text-secondary mb-0 mt-2'>Open modal to show the alert message from a selector,
+      click outside the modal will not close the modal, example: <code>#sample_alert_selector</code></p>
     </div>
   </div>
 </div>

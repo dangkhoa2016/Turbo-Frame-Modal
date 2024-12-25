@@ -24,42 +24,79 @@
       By combining Stimulus for interactivity, Turbo for dynamic content loading, and Bootstrap 5 for modal styling and animations, this setup creates a smooth and intuitive user experience for interacting with multiple modals on a page.
     </p>
 
-    <div id='main'>
-      <a href='#example1' class='d-inline-flex align-items-center btn btn-primary btn-lg px-4 m-3 rounded-pill'
-        type='button'>
-        Go to 'A' section
-        <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
-      </a>
-      <a href='#example2' class='d-inline-flex align-items-center btn btn-danger btn-lg px-4 m-3 rounded-pill'
-        type='button'>
-        Go to 'B' section
-        <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
-      </a>
-      <a href='#example3' class='d-inline-flex align-items-center btn btn-warning btn-lg px-4 m-3 rounded-pill'
-        type='button'>
-        Go to 'C' section
-        <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
-      </a>
-      <a href='#example4' class='d-inline-flex align-items-center btn btn-info btn-lg px-4 m-3 rounded-pill'
-        type='button'>
-        Go to 'D' section
-        <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
-      </a>
-      <a href='#example5' class='d-inline-flex align-items-center btn btn-outline-dark btn-lg px-4 m-3 rounded-pill'
-        type='button'>
-        Go to 'E' section
-        <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
-      </a>
-      <a href='#example6' class='d-inline-flex align-items-center btn btn-success btn-lg px-4 m-3 rounded-pill'
-        type='button'>
-        Go to 'F' section
-        <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
-      </a>
-      <a href='#example7' class='d-inline-flex align-items-center btn btn-outline-primary btn-lg px-4 m-3 rounded-pill'
-        type='button'>
-        Go to 'G' section
-        <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
-      </a>
+    <div id='main' class='row'>
+      <div class='col-sm-6 mb-3'>
+        <a href='#example1' class='d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill'
+          type='button'>
+          Go to 'A' section
+          <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
+        </a>
+        <p class='text-secondary mb-0 mt-1'>Loop through all tables and show row count</p>
+      </div>
+      <div class='col-sm-6 mb-3'>
+        <a href='#example2' class='d-inline-flex align-items-center btn btn-danger btn-lg px-4 rounded-pill'
+          type='button'>
+          Go to 'B' section
+          <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
+        </a>
+        <p class='text-secondary mb-0 mt-1'>Form without validation</p>
+      </div>
+      <div class='col-sm-6 mb-3'>
+        <a href='#example3' class='d-inline-flex align-items-center btn btn-warning btn-lg px-4 rounded-pill'
+          type='button'>
+          Go to 'C' section
+          <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
+        </a>
+        <p class='text-secondary mb-0 mt-1'>Form inside modal without validation</p>
+      </div>
+      <div class='col-sm-6 mb-3'>
+        <a href='#example4' class='d-inline-flex align-items-center btn btn-info btn-lg px-4 rounded-pill'
+          type='button'>
+          Go to 'D' section
+          <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
+        </a>
+        <p class='text-secondary mb-0 mt-1'>Sample <code>GET</code> request with error response</p>
+      </div>
+      <div class='col-sm-6 mb-3'>
+        <a href='#example5' class='d-inline-flex align-items-center btn btn-outline-dark btn-lg px-4 rounded-pill'
+          type='button'>
+          Go to 'E' section
+          <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
+        </a>
+        <p class='text-secondary mb-0 mt-1'>Sample <code>POST</code> inside modal</p>
+      </div>
+      <div class='col-sm-6 mb-3'>
+        <a href='#example6' class='d-inline-flex align-items-center btn btn-success btn-lg px-4 rounded-pill'
+          type='button'>
+          Go to 'F' section
+          <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
+        </a>
+        <p class='text-secondary mb-0 mt-1'>Form with validation</p>
+      </div>
+      <div class='col-sm-6 mb-3'>
+        <a href='#example7' class='d-inline-flex align-items-center btn btn-outline-primary btn-lg px-4 rounded-pill'
+          type='button'>
+          Go to 'G' section
+          <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
+        </a>
+        <p class='text-secondary mb-0 mt-1'>Form inside modal with validation</p>
+      </div>
+      <div class='col-sm-6 mb-3'>
+        <a href='#example8' class='d-inline-flex align-items-center btn btn-outline-danger btn-lg px-4 rounded-pill'
+          type='button'>
+          Go to 'H' section
+          <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
+        </a>
+        <p class='text-secondary mb-0 mt-1'>Confirmation modals</p>
+      </div>
+      <div class='col-sm-6 mb-3'>
+        <a href='#example9' class='d-inline-flex align-items-center btn btn-outline-warning btn-lg px-4 rounded-pill'
+          type='button'>
+          Go to 'I' section
+          <svg class='bi ms-2' width='24' height='24'><use xlink:href='#arrow-right-short' /></svg>
+        </a>
+        <p class='text-secondary mb-0 mt-1'>Alert modals</p>
+      </div>
     </div>
   </div>
 </div>
