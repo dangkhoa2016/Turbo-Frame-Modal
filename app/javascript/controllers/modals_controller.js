@@ -76,22 +76,26 @@ export default class extends Controller {
       const element = document.getElementById(streamTarget);
       if (element) {
         element.setAttribute('wait-for-frame-replaced', 'true');
+
+        const needCloseModal = !this.element.contains(element) && element.getAttribute('data-modals-target') !== 'turboFrame';
         this.waitForFrameReplaced(`#${streamTarget}[wait-for-frame-replaced]`, (result) => {
+          const element = document.getElementById(streamTarget);
+
           if (!result) {
             console.log('waitForFrameReplaced: failed', streamTarget);
-            const element = document.getElementById(streamTarget);
             if (element)
               element.removeAttribute('wait-for-frame-replaced');
             return;
           }
 
-          this.modal.forceClose = true;
-          this.closeModal();
-          this.constructor.sleep(800).then(() => {
-            this.modal.forceClose = false;
-          });
-
-          const element = document.getElementById(streamTarget);
+          if (needCloseModal) {
+            this.modal.forceClose = true;
+            this.forceCloseModal();
+            this.constructor.sleep(1000).then(() => {
+              this.modal.forceClose = false;
+            });
+          }
+  
           if (element)
             this.initHandleElements(element);
         });
@@ -100,11 +104,6 @@ export default class extends Controller {
   }
 
   handleTurboBeforeStreamRender(event) {
-    if (!this.isModalOpen) {
-      this.handleOtherRender(event.detail.newStream);
-      return;
-    }
-
     const stream = event.detail.newStream;
     if (!stream)
       return;
@@ -113,13 +112,14 @@ export default class extends Controller {
     if (!template)
       return;
 
-    
     const streamTarget = stream.getAttribute('target') || stream.target;
-    if (streamTarget !== this.turboFrameTargetId) {
+    if (streamTarget !== this.turboFrameTargetId || !this.isModalOpen) {
       this.handleOtherRender(stream);
       return;
     }
     
+    event.preventDefault();
+
     this.turboFrameTarget.setAttribute('wait-for-frame-replaced', 'true');
 
     const doc = template.content;
@@ -138,16 +138,14 @@ export default class extends Controller {
 
     event.detail.render(stream).then(() => {
       const backupId = this.turboFrameTargetId;
+      this.initHandleElements(this.turboFrameTarget);
+      this.initFrameEvent(this.turboFrameTarget);
 
       this.waitForFrameReplaced(`turbo-frame#${backupId}[data-modals-target][wait-for-frame-replaced]`, (result) => {
         if (!result) {
           console.log('waitForFrameReplaced: failed', backupId);
           this.turboFrameTarget.removeAttribute('wait-for-frame-replaced');
-          return;
         }
-
-        const turboFrame = document.getElementById(this.turboFrameTargetId);
-        this.initFrameEvent(turboFrame);
       });
     });
   }
@@ -202,6 +200,8 @@ export default class extends Controller {
       return;
     }
 
+    document.activeElement.blur();
+
     let isAbort = false;
     if (this.abortController) {
       this.abortController.abort(this.abortReason);
@@ -210,11 +210,11 @@ export default class extends Controller {
       isAbort = true;
     }
 
-    this.element.removeAttribute('aria-hidden');
+    this.removeDisabledAttribute();
+    this.triggerElement = null;
     this.modal.forceClose = false;
     this.waitForModalToHide(() => {
       delete document.closingModal;
-      this.element.removeAttribute('aria-hidden');
 
       if (this.confirmButton)
         this.confirmButton.classList.add('d-none');
@@ -232,6 +232,7 @@ export default class extends Controller {
       return;
     }
 
+    this.element.removeAttribute('aria-hidden');
     if (this.element.style.display !== 'none') {
       this.constructor.sleep(50).then(() => {
         this.waitForModalToHide(callback, currentTry + 1);
@@ -242,10 +243,24 @@ export default class extends Controller {
   }
 
   removeDisabledAttribute() {
-    if (this.triggerElement?.getAttribute('data-disable-on-reponse') !== 'true') {
-      this.triggerElement?.removeAttribute('disabled');
-      this.triggerElement?.classList.remove('disabled');
+    if (!this.triggerElement)
+      return;
+
+    const shouldRemove = this.triggerElement.getAttribute('data-disable-on-request') === 'true' || this.triggerElement.getAttribute('type') === 'submit';
+    if (shouldRemove) {
+      this.triggerElement.removeAttribute('disabled');
+      this.triggerElement.classList.remove('disabled');
     }
+
+    const text = this.triggerElement.getAttribute('data-original-text');
+    if (!text || !this.triggerElement.getAttribute('data-disable-with'))
+      return;
+
+    if (this.triggerElement.tagName === 'INPUT')
+      this.triggerElement.value = text;
+    else
+      this.triggerElement.textContent = text;
+    this.triggerElement.removeAttribute('data-original-text');
   }
 
   hideErrorContainers() {
@@ -278,8 +293,12 @@ export default class extends Controller {
     const { fetchOptions } = event.detail;
     this.modifyFetchOptions(fetchOptions);
 
-    if (!this.abortController)
-      this.abortController = new AbortController();
+    if (this.abortController) {
+      this.abortController.abort(this.abortReason);
+      this.removeDisabledAttribute();
+    }
+
+    this.abortController = new AbortController();
     fetchOptions.signal = this.abortController.signal;
 
     if (event.target.tagName === 'FORM') {
@@ -347,7 +366,12 @@ export default class extends Controller {
   }
 
   forceCloseModal(event) {
-    if (this.modal.forceClose) {
+    if (!this.isModalOpen) {
+      this.modal.forceClose = false;
+      return;
+    }
+
+    if (this.modal.forceClose || this.isModalOpen) {
       this.closeModal(event);
 
       this.constructor.sleep(50).then(() => {
@@ -362,8 +386,8 @@ export default class extends Controller {
         return;
 
       this.modal.forceClose = true;
-      this.closeModal(event);
-      this.constructor.sleep(800).then(() => {
+      this.forceCloseModal(event);
+      this.constructor.sleep(1000).then(() => {
         this.modal.forceClose = false;
       });
 
@@ -388,9 +412,11 @@ export default class extends Controller {
     const fetchResponse = event.detail.fetchResponse.response.clone();
     if (fetchResponse.status !== 200) {
       event.preventDefault();
+      event.stopPropagation();
 
       this.parseContentAndDisplayError(fetchResponse);
       this.openModal(event);
+      this.removeDisabledAttribute();
 
       return true;
     }
@@ -400,15 +426,17 @@ export default class extends Controller {
 
   setFrameContentFromResponse(response) {
     response.text().then((text) => {
-        this.setFrameContent(text);
-        // const turboFrames = this.turboFrameTarget.querySelectorAll('turbo-frame');
-        // turboFrames.forEach((frame) => {
-        //   frame.removeAttribute('id');
-        // });
-        this.initHandleElements(this.turboFrameTarget);
-      }).catch((e) => {
-        console.log('Error parsing the response HTML:', e);
-      });
+      Turbo.renderStreamMessage(`
+        <turbo-stream action='update' target='${this.turboFrameTargetId}'>
+          <template>
+            ${text}
+          </template>
+        </turbo-stream>
+      `);
+    }).catch((e) => {
+      console.log('Error parsing the response HTML:', e);
+    });
+    this.removeDisabledAttribute();
   }
 
   handleFormResponse(event) {
@@ -432,10 +460,18 @@ export default class extends Controller {
       if (this.noNeedOpen)
         this.noNeedOpen = false;
 
+      if (this.triggerElement?.getAttribute('data-show-modal-when-response') === 'true' ||
+        event.target.getAttribute('data-show-modal-when-response') === 'true') {
+        if (!this.element.contains(event.target))
+          this.closeModal(event);
+      } else if (!this.element.contains(event.target))
+        this.closeModal(event);
+
       return;
     }
 
     event.preventDefault();
+    event.stopPropagation();
     this.setFrameContentFromResponse(fetchResponse);
 
     if (this.triggerElement?.getAttribute('data-show-modal-when-response') === 'true' ||
@@ -452,7 +488,7 @@ export default class extends Controller {
 
       const handleModal = this.getHandleModalController();
       if (handleModal) {
-        if (this.triggerElement.getAttribute('data-handle-by-target') === 'true') {
+        if (handleModal.turboFrameTargetId !== this.turboFrameTargetId) {
           this.parseContentAndDisplayError(fetchResponse);
           handleModal.abortController = null;
           handleModal.closeModal(event);
@@ -477,7 +513,7 @@ export default class extends Controller {
 
       const handleModal = this.getHandleModalController();
       if (handleModal) {
-        if (this.triggerElement.getAttribute('data-handle-by-target') === 'true') {
+        if (handleModal.turboFrameTargetId !== this.turboFrameTargetId) {
           this.setFrameContentFromResponse(fetchResponse);
           handleModal.abortController = null;
           handleModal.closeModal(event);
@@ -485,8 +521,7 @@ export default class extends Controller {
           handleModal.setFrameContentFromResponse(fetchResponse);
           this.closeModal(event);
         }
-      }
-      else
+      } else
         this.setFrameContentFromResponse(fetchResponse);
     }
   }
@@ -494,10 +529,12 @@ export default class extends Controller {
   handleBeforeFetchResponse(event) {
     this.abortController = null;
 
-    if (event.target.tagName === 'TURBO-FRAME')
+    if (event.currentTarget.tagName === 'TURBO-FRAME')
       this.handleTurboFrameResponse(event);
-    else if (event.target.tagName === 'FORM') {
-      if (event.target.getAttribute('data-handle-by-target') === 'true')
+    else if (event.currentTarget.tagName === 'FORM') {
+      const handleModal = event.target.getAttribute('data-handle-modal');
+
+      if (handleModal && handleModal !== this.turboFrameTargetId)
         this.handleByTarget(event);
       else
         this.handleFormResponse(event);
@@ -505,16 +542,42 @@ export default class extends Controller {
   }
 
   handleTurboClickEvent(event) {
+    this.removeDisabledAttribute();
+
     this.triggerElement = event.target;
 
     if (this.triggerElement.getAttribute('data-disable-on-request') === 'true') {
       this.triggerElement.setAttribute('disabled', 'disabled');
       this.triggerElement.classList.add('disabled');
     }
+
+    const disableText = this.triggerElement.getAttribute('data-disable-with');
+    if (disableText) {
+      let text = this.triggerElement.textContent;
+      this.triggerElement.textContent = disableText;
+
+      this.triggerElement.setAttribute('data-original-text', text);
+    }
   }
 
   handleTurboSubmitStartEvent(event) {
+    this.removeDisabledAttribute();
+
     this.triggerElement = event.detail.formSubmission.submitter;
+
+    this.triggerElement.setAttribute('disabled', 'disabled');
+    this.triggerElement.classList.add('disabled');
+    const disableText = this.triggerElement.getAttribute('data-disable-with');
+    if (disableText) {
+      let text = this.triggerElement.textContent;
+      if (this.triggerElement.tagName === 'INPUT') {
+        text = this.triggerElement.value;
+        this.triggerElement.value = disableText;
+      } else
+        this.triggerElement.textContent = disableText;
+
+      this.triggerElement.setAttribute('data-original-text', text);
+    }
   }
 
   initHandleElements(event) {
@@ -600,12 +663,11 @@ export default class extends Controller {
       return;
 
     this.modal.forceClose = true;
-    this.constructor.sleep(500).then(() => {
-      this.closeModal(event);
-      this.constructor.sleep(800).then(() => {
-        this.modal.forceClose = false;
-      });
+    this.forceCloseModal(event);
+    this.constructor.sleep(1000).then(() => {
+      this.modal.forceClose = false;
     });
+    this.removeDisabledAttribute();
   }
 
   handleTurboFrameFetchRequestError(event) {
@@ -653,8 +715,11 @@ export default class extends Controller {
   handleModalClose(event) {
     const { detail } = event || {};
     const { isAbort } = detail || {};
-    if (isAbort)
+    if (isAbort) {
       this.confirmButton.classList.remove('d-none');
+      this.abortController.abort(this.abortReason);
+      this.abortController = null;
+    }
     this.setFrameContent(this.backupConfirmMessage);
     event.target.removeEventListener('modals-controller:close', this.handleModalClose);
   }
@@ -820,6 +885,10 @@ export default class extends Controller {
   openModalByTriggerElement(event, element = null, setLoading = false) {
     if (!element)
       element = this.event.target;
+
+    if (this.triggerElement)
+      this.removeDisabledAttribute();
+
     this.triggerElement = element;
     const closable = element.getAttribute('data-closable');
     this.modal._config.backdrop = (closable == null || closable.toString() === 'true') ? true : 'static';

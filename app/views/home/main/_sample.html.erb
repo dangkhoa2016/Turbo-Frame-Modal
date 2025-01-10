@@ -10,12 +10,14 @@
       </div>
       <hr />
       <div>
-        <%= link_to 'Show tables row count', count_all_home_index_path, class: 'my-2 btn btn-danger', data: { turbo_frame: 'modal_frame', 'disable-on-request': true, 'show-modal-when-response': 'true' } %>
+        <%= link_to 'Show tables row count', count_all_home_index_path, class: 'my-2 btn btn-danger',
+          data: { turbo_frame: 'modal_frame', disable_on_request: true, 'show-modal-when-response': 'true', disable_with: 'Loading...' } %>
         <p class='text-secondary mb-0 mt-2'>2. Disable button on request and show the <code>Main Modal</code> ({ turbo_frame: 'modal_frame' }) when server response</p>
       </div>
       <hr />
       <div>
-        <%= link_to 'Show tables row count', count_all_home_index_path, class: 'my-2 btn btn-warning', data: { turbo_frame: 'modal_frame', 'disable-on-request': true } %>
+        <%= link_to 'Show tables row count', count_all_home_index_path, class: 'my-2 btn btn-warning',
+          data: { turbo_frame: 'modal_frame', 'disable-on-request': true } %>
         <p class='text-secondary mb-0 mt-2'>3. Disable button on request and show the <code>Main Modal</code> ({ turbo_frame: 'modal_frame' }) when click</p>
       </div>
       <hr />
@@ -90,7 +92,8 @@
       </div>
       <hr />
       <div>
-        <%= link_to 'Sample get no template', sample_get_no_template_home_index_path, class: 'btn btn-info', data: { turbo_frame: 'sub_modal_frame', 'disable-on-request': 'true' } %>
+        <%= link_to 'Sample get no template', sample_get_no_template_home_index_path, class: 'btn btn-info',
+          data: { turbo_frame: 'sub_modal_frame', 'disable-on-request': 'true', disable_with: 'Loading...' } %>
         <p class='text-secondary mb-0 mt-2'>Open <code>Sub Modal</code> with no template to test the error response and showing the error message in the modal</p>
       </div>
     </div>
@@ -102,7 +105,8 @@
 
   <div class='col-md-6'>
     <div class='alert alert-info my-4'>
-      <%= link_to 'Inside modal 3', sample_post_inside_modal3_home_index_path, class: 'btn btn-warning', data: { turbo_frame: 'modal_frame', 'disable-on-request': 'true' } %>
+      <%= link_to 'Inside modal 3', sample_post_inside_modal3_home_index_path, class: 'btn btn-warning',
+        data: { turbo_frame: 'modal_frame', 'disable-on-request': 'true', disable_with: 'Opening...' } %>
       <p class='text-secondary mb-0 mt-2'>Open form inside modal (sleep 2 seconds) with options: <code>{ 'show-modal-when-response': 'true' }</code>, when submit the form, the <code>Sub Modal</code> will show loading spinner,
       and when server response the <code>Sub Modal</code> will show the response</p>
     </div>
@@ -110,7 +114,7 @@
   <div class='col-md-6'>
     <div class='alert alert-warning my-4'>
       <%= link_to 'Inside modal 4', sample_post_inside_modal4_home_index_path, class: 'btn btn-outline-primary', data: { turbo_frame: 'modal_frame', 'disable-on-request': 'true' } %>
-      <p class='text-secondary mb-0 mt-2'>Open form inside the <code>Main Modal</code> with options: <code>{ 'handle-by-target': 'true' }</code>, when submit the form, the <code>Sub Modal</code> will show loading spinner,
+      <p class='text-secondary mb-0 mt-2'>Open form inside the <code>Main Modal</code> with options: <code>{ handle_modal: 'modal_frame' }</code>, when submit the form, the <code>Sub Modal</code> will show loading spinner,
       and when server response the <code>Sub Modal</code> will close and the <code>Main Modal</code> will show the response</p>
     </div>
   </div>
@@ -212,7 +216,7 @@
   <div class='col-md-6'>
     <div class='alert alert-danger my-4'>
       <%= link_to 'Confirmation modal 6.2', test_confirm_modal_home_index_path, class: 'btn btn-purple',
-        data: { turbo_frame: 'modal_frame', turbo_method: 'post', handle_by_target: true,
+        data: { turbo_frame: 'modal_frame', turbo_method: 'post',
           turbo_confirm: 'Are you sure?', closable: false,
           handle_modal: 'sub_modal_frame', confirm_yes: 'OK', post_params: { name: 'John Doe' } } %>
       <p class='text-secondary mb-0 mt-2'>Open confirmation modal, when click on the submit button,
@@ -246,7 +250,7 @@
   <div class='col-md-6'>
     <div class='alert alert-warning my-4'>
       <%= link_to 'Confirmation modal 8.2', test_confirm_modal_home_index_path, class: 'btn btn-danger',
-        data: { turbo_frame: 'modal_frame', turbo_method: 'delete', remote: true, handle_by_target: true,
+        data: { turbo_frame: 'modal_frame', turbo_method: 'delete', remote: true,
           turbo_confirm: 'Are you sure?', closable: false, delete_params: { id: 1, date: Date.current },
           handle_modal: 'sub_modal_frame', confirm_yes: 'Absolutely' } %>
       <p class='text-secondary mb-0 mt-2'>Open confirmation modal, when click on the submit button,

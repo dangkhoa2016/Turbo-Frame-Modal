@@ -23,5 +23,5 @@
     <%= f.label :is_active, for: "is_active_#{f.object_id}", class: 'form-check-label' %>
   </div>
 
-  <%= f.submit 'Test submit', class: 'btn btn-primary' %>
+  <%= f.submit 'Test submit', class: 'btn btn-primary', data: { disable_with: 'Processing...' } %>
 <% end %>

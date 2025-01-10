@@ -4,3 +4,9 @@
   <p>Request body: <%= request.body.read %></p>
   <p>Request params: <%= request.params %></p>
 </div>
+
+<% if request.post? %>
+  <script>
+    console.log('Test Confirm Modal: <%= request.method %> request');
+  </script>
+<% end %>
