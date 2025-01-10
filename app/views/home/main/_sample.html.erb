@@ -9,12 +9,14 @@
     </div>
     <hr class='border-gray-400' />
     <div class='mt-3'>
-      <%= link_to 'Show tables row count', count_all_home_index_path, class: 'my-2 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1.5', data: { turbo_frame: 'modal_frame', 'disable-on-request': true, 'show-modal-when-response': 'true' } %>
+      <%= link_to 'Show tables row count', count_all_home_index_path, class: 'my-2 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1.5',
+        data: { turbo_frame: 'modal_frame', disable_on_request: true, 'show-modal-when-response': 'true', disable_with: 'Loading...' } %>
       <p class='text-gray-500 my-2'>2. Disable button on request and show the <code class='text-pink-600'>Main Modal</code> ({ turbo_frame: 'modal_frame' }) when server response</p>
     </div>
     <hr class='border-gray-400' />
     <div class='mt-3'>
-      <%= link_to 'Show tables row count', count_all_home_index_path, class: 'my-2 focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-3 py-1.5', data: { turbo_frame: 'modal_frame', 'disable-on-request': true } %>
+      <%= link_to 'Show tables row count', count_all_home_index_path, class: 'my-2 focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-3 py-1.5',
+        data: { turbo_frame: 'modal_frame', 'disable-on-request': true } %>
       <p class='text-gray-500 my-2'>3. Disable button on request and show the <code class='text-pink-600'>Main Modal</code> ({ turbo_frame: 'modal_frame' }) when click</p>
     </div>
     <hr class='border-gray-400' />
@@ -87,7 +89,8 @@
     </div>
     <hr class='border-red-300' />
     <div class='mt-3'>
-      <%= link_to 'Sample get no template', sample_get_no_template_home_index_path, class: 'my-2 focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5', data: { turbo_frame: 'sub_modal_frame', 'disable-on-request': 'true' } %>
+      <%= link_to 'Sample get no template', sample_get_no_template_home_index_path, class: 'my-2 focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5',
+        data: { turbo_frame: 'sub_modal_frame', 'disable-on-request': 'true', disable_with: 'Loading...' } %>
       <p class='text-gray-500 my-2'>Open <code class='text-pink-600'>Sub Modal</code> with no template to test the error response and showing the error message in the modal</p>
     </div>
   </div>
@@ -98,13 +101,14 @@
 
   <div class='grid grid-cols-2 gap-3'>
     <div class='p-4 mb-4 text-blue-800 border border-blue-300 rounded-lg bg-blue-100'>
-      <%= link_to 'Inside modal 3', sample_post_inside_modal3_home_index_path, class: 'focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-3 py-1.5', data: { turbo_frame: 'modal_frame', 'disable-on-request': 'true' } %>
+      <%= link_to 'Inside modal 3', sample_post_inside_modal3_home_index_path, class: 'focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-3 py-1.5',
+        data: { turbo_frame: 'modal_frame', 'disable-on-request': 'true', disable_with: 'Opening...' } %>
       <p class='text-gray-500 my-2'>Open form inside modal (sleep 2 seconds) with options: <code class='text-pink-600'>{ 'show-modal-when-response': 'true' }</code>, when submit the form, the <code class='text-pink-600'>Sub Modal</code> will show loading spinner,
       and when server response the <code class='text-pink-600'>Sub Modal</code> will show the response</p>
     </div>
     <div class='p-4 mb-4 text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-100'>
       <%= link_to 'Inside modal 4', sample_post_inside_modal4_home_index_path, class: 'border-2 border-blue-800 text-blue-800 text-lg px-3 py-1.5 font-medium text-sm rounded-lg hover:bg-blue-800 hover:text-white transition-all', data: { turbo_frame: 'modal_frame', 'disable-on-request': 'true' } %>
-      <p class='text-gray-500 my-2'>Open form inside the <code class='text-pink-600'>Main Modal</code> with options: <code class='text-pink-600'>{ 'handle-by-target': 'true' }</code>, when submit the form, the <code class='text-pink-600'>Sub Modal</code> will show loading spinner,
+      <p class='text-gray-500 my-2'>Open form inside the <code class='text-pink-600'>Main Modal</code> with options: <code class='text-pink-600'>{ handle_modal: 'modal_frame' }</code>, when submit the form, the <code class='text-pink-600'>Sub Modal</code> will show loading spinner,
       and when server response the <code class='text-pink-600'>Sub Modal</code> will close and the <code class='text-pink-600'>Main Modal</code> will show the response</p>
     </div>
   </div>
@@ -188,7 +192,7 @@
     </div>
     <div class='p-4 border border-red-300 rounded-lg bg-red-100'>
       <%= link_to 'Confirmation modal 6.2', test_confirm_modal_home_index_path, class: 'focus:outline-none text-white bg-purple-400 hover:bg-purple-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-3 py-1.5',
-        data: { turbo_frame: 'modal_frame', turbo_method: 'post', handle_by_target: true,
+        data: { turbo_frame: 'modal_frame', turbo_method: 'post',
           turbo_confirm: 'Are you sure?', closable: false,
           handle_modal: 'sub_modal_frame', confirm_yes: 'OK', post_params: { name: 'John Doe' } } %>
       <p class='text-gray-500 my-2'>Open confirmation modal, when click on the submit button,
@@ -214,7 +218,7 @@
     </div>
     <div class='p-4 border border-yellow-300 rounded-lg bg-yellow-100'>
       <%= link_to 'Confirmation modal 8.2', test_confirm_modal_home_index_path, class: 'focus:outline-none text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1.5',
-        data: { turbo_frame: 'modal_frame', turbo_method: 'delete', remote: true, handle_by_target: true,
+        data: { turbo_frame: 'modal_frame', turbo_method: 'delete', remote: true,
           turbo_confirm: 'Are you sure?', closable: false, delete_params: { id: 1, date: Date.current },
           handle_modal: 'sub_modal_frame', confirm_yes: 'Absolutely' } %>
       <p class='text-gray-500 my-2'>Open confirmation modal, when click on the submit button,
