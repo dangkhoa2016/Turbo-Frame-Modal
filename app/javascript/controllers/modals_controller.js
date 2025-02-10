@@ -28,6 +28,8 @@ export default class extends Controller {
     this.confirmButtonClicked = false;
     this.backupConfirmMessage = null;
     this.turboFrameTargetId = this.turboFrameTarget.id;
+    this.defaultModalHeader = this.element.querySelector('.modal-title').textContent;
+
     this.initEventHandlers();
     this.initModal();
     this.initHandleElements();
@@ -625,6 +627,15 @@ export default class extends Controller {
     }
   }
 
+  setModalHeader() {
+    const modalHeader = this.element.querySelector('.modal-header');
+    if (!modalHeader)
+      return;
+
+    const title = this.triggerElement.getAttribute('data-modal-title') || this.defaultModalHeader;
+    modalHeader.querySelector('.modal-title').textContent = title;
+  }
+
   handleTurboSubmitStartEvent(event) {
     this.removeDisabledAttribute();
 
@@ -944,6 +955,7 @@ export default class extends Controller {
   openModal(event, setLoading = true) {
     if (!this.isModalOpen) {
       this.hideErrorContainers();
+      this.setModalHeader();
 
       if (setLoading)
         this.setLoading();
