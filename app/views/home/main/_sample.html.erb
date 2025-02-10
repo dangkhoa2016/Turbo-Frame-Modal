@@ -300,3 +300,23 @@
     </div>
   </div>
 </div>
+
+<div id='example10' class='rounded bg-body-tertiary row mb-3 pt-3'>
+  <h4 class='col-12 mb-2'>J - Change modal header</h4>
+
+  <div class='col-md-6'>
+    <div class='alert alert-danger my-4'>
+      <%= link_to 'Alert', sample_get_no_action_home_index_path, class: 'btn btn-success',
+        data: { turbo_frame: 'modal_frame', modal_title: 'Alert' } %>
+      <p class='text-secondary mb-0 mt-2'>Open <code>Main Modal</code> with header title: <code>Alert</code></p>
+    </div>
+  </div>
+  <div class='col-md-6'>
+    <div class='alert alert-success my-4'>
+      <%= link_to 'Confirmation', test_modal_form1_home_index_path, class: 'btn btn-info',
+        data: { turbo_frame: 'sub_modal_frame', 'disable-on-request': 'true',
+          disable_with: 'Loading...', modal_title: 'Are you sure ?' } %>
+      <p class='text-secondary mb-0 mt-2'>Open <code>Sub Modal</code> with header title: <code>Are you sure ?</code></p>
+    </div>
+  </div>
+</div>
